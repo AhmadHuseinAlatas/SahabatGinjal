@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SahabatGinjal · Kamu tidak sendiri menjalani cuci darah</title>
+    <meta
+      name="description"
+      content="Ruang yang tenang untuk kamu yang baru mendengar kata 'cuci darah' atau sudah lama menjalaninya. Penjelasan jujur, langkah pertama, dan tempat menarik napas."
+    />
+    <meta name="theme-color" content="#f7f8f3" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SahabatGinjal · Kamu tidak sendiri" />
+    <meta
+      property="og:description"
+      content="Cuci darah bukan akhir cerita. Ruang tenang untuk memahaminya, satu napas pada satu waktu."
+    />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script>
+      // Terapkan tema tersimpan/sistem sebelum halaman digambar agar tidak berkedip.
+      ;(function () {
+        try {
+          var saved = localStorage.getItem('sg-theme')
+          var dark = saved
+            ? saved === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches
+          document.documentElement.classList.toggle('dark', dark)
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <noscript>SahabatGinjal membutuhkan JavaScript agar bisa ditampilkan.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -1,0 +1,347 @@
+@import 'tailwindcss';
+
+/* Dark mode follows the `.dark` class (set on <html> or on any section). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   Brand tokens, sampled from the SahabatGinjal logo
+   leaf  = wordmark green   · sprout = leaves on the ring
+   tide  = water ring blue  · coral  = the kidneys
+   ========================================================================== */
+@theme {
+  --font-sans: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --font-display--font-variation-settings: 'SOFT' 100;
+
+  --text-display: clamp(2.7rem, 1.35rem + 5.4vw, 5.9rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.035em;
+  --text-title: clamp(2.1rem, 1.35rem + 2.9vw, 3.75rem);
+  --text-title--line-height: 1.06;
+  --text-title--letter-spacing: -0.025em;
+
+  --color-leaf-50: #effaf2;
+  --color-leaf-100: #d9f2e0;
+  --color-leaf-200: #b5e3c3;
+  --color-leaf-300: #86cd9e;
+  --color-leaf-400: #55b176;
+  --color-leaf-500: #359558;
+  --color-leaf-600: #2c7d47;
+  --color-leaf-700: #25643a;
+  --color-leaf-800: #1f4f30;
+  --color-leaf-900: #1a4128;
+  --color-leaf-950: #0c2415;
+
+  --color-sprout-200: #d5eab9;
+  --color-sprout-300: #b5d98f;
+  --color-sprout-400: #92c26a;
+  --color-sprout-500: #71ac50;
+
+  --color-tide-50: #eff8fc;
+  --color-tide-100: #dbeff8;
+  --color-tide-200: #bfe2f2;
+  --color-tide-300: #92cfe8;
+  --color-tide-400: #52a4cd;
+  --color-tide-500: #3a8fbb;
+  --color-tide-600: #2c779d;
+  --color-tide-700: #276180;
+  --color-tide-800: #25516a;
+  --color-tide-900: #234459;
+
+  --color-coral-50: #fdf3f1;
+  --color-coral-100: #fbe4df;
+  --color-coral-200: #f8cdc4;
+  --color-coral-300: #f2aa9c;
+  --color-coral-400: #e98370;
+  --color-coral-500: #da6552;
+  --color-coral-600: #c44b38;
+  --color-coral-700: #a43c2d;
+  --color-coral-800: #873429;
+  --color-coral-900: #703027;
+
+  --color-night-700: #173a33;
+  --color-night-800: #112c27;
+  --color-night-900: #0b1f1b;
+  --color-night-950: #071512;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-marquee: marquee 55s linear infinite;
+  --animate-drift: drift 26s ease-in-out infinite alternate;
+  --animate-spin-slow: spin 70s linear infinite;
+  --animate-spin-reverse: spin-reverse 95s linear infinite;
+  --animate-dash: dash 1.4s linear infinite;
+  --animate-twinkle: twinkle 5s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 3.6s var(--ease-soft) infinite;
+  --animate-float: float 7s ease-in-out infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+  @keyframes drift {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    to {
+      transform: translate3d(6%, 8%, 0) scale(1.15);
+    }
+  }
+  @keyframes spin-reverse {
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+  @keyframes dash {
+    to {
+      stroke-dashoffset: -24;
+    }
+  }
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    80%,
+    100% {
+      transform: scale(1.22);
+      opacity: 0;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -10px, 0);
+    }
+  }
+}
+
+/* ==========================================================================
+   Semantic colours: flip between "pagi" (light) and "malam" (dark)
+   ========================================================================== */
+:root {
+  color-scheme: light;
+  --canvas: #f7f8f3;
+  --surface: #ffffff;
+  --surface-muted: #eef4ee;
+  --ink: #0f2a22;
+  --ink-soft: #3d5a50;
+  --ink-faint: #587068;
+  --line: rgb(15 42 34 / 0.1);
+  --line-strong: rgb(15 42 34 / 0.2);
+  --primary: #2c7d47;
+  --accent: #2c779d;
+  --warm: #b8432f;
+  --brand: #25643a;
+  --brand-hover: #1f4f30;
+  --brand-ink: #ffffff;
+  --glow-1: rgb(134 205 158 / 0.5);
+  --glow-2: rgb(146 207 232 / 0.5);
+  --glow-3: rgb(242 170 156 / 0.38);
+  --grain-opacity: 0.07;
+  --elev-card: 0 1px 0 0 rgb(255 255 255 / 0.8) inset, 0 24px 48px -32px rgb(15 42 34 / 0.3);
+  --elev-float: 0 30px 80px -30px rgb(15 42 34 / 0.45);
+}
+
+.dark {
+  color-scheme: dark;
+  --canvas: #0b1f1b;
+  --surface: #112a25;
+  --surface-muted: #16342e;
+  --ink: #e8f1ec;
+  --ink-soft: #b3c7bf;
+  --ink-faint: #8fa79e;
+  --line: rgb(232 241 236 / 0.1);
+  --line-strong: rgb(232 241 236 / 0.2);
+  --primary: #86cd9e;
+  --accent: #92cfe8;
+  --warm: #f2aa9c;
+  --brand: #86cd9e;
+  --brand-hover: #b5e3c3;
+  --brand-ink: #071512;
+  --glow-1: rgb(53 149 88 / 0.24);
+  --glow-2: rgb(58 143 187 / 0.2);
+  --glow-3: rgb(218 101 82 / 0.13);
+  --grain-opacity: 0.1;
+  --elev-card: 0 1px 0 0 rgb(255 255 255 / 0.05) inset, 0 24px 48px -28px rgb(0 0 0 / 0.65);
+  --elev-float: 0 30px 80px -30px rgb(0 0 0 / 0.8);
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-warm: var(--warm);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-ink: var(--brand-ink);
+  --shadow-card: var(--elev-card);
+  --shadow-float: var(--elev-float);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-ink antialiased;
+    text-rendering: optimizeLegibility;
+    transition: background-color 0.5s var(--ease-soft);
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 28%, transparent);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  section[id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  dd,
+  blockquote {
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   Reusable utilities
+   ========================================================================== */
+@utility shell {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+@utility card {
+  border-radius: 1.75rem;
+  border: 1px solid var(--line);
+  background-color: color-mix(in oklab, var(--surface) 84%, transparent);
+  box-shadow: var(--elev-card);
+}
+
+@utility glass {
+  background-color: color-mix(in oklab, var(--surface) 70%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+}
+
+@utility kicker {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-leaf-500) 0%,
+    var(--color-tide-500) 55%,
+    var(--color-coral-500) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  &:where(.dark, .dark *) {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-leaf-300) 0%,
+      var(--color-tide-300) 55%,
+      var(--color-coral-300) 100%
+    );
+  }
+}
+
+@utility grain {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: var(--grain-opacity);
+}
+
+@utility fade-x {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+/* The breathing orb in "Ruang Tenang": dark centre keeps the text readable. */
+@utility breath-orb {
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgb(7 21 18 / 0.92) 0%,
+    rgb(7 21 18 / 0.7) 46%,
+    rgb(58 143 187 / 0.55) 72%,
+    rgb(134 205 158 / 0.95) 100%
+  );
+  box-shadow:
+    0 0 110px -10px rgb(82 164 205 / 0.55),
+    inset 0 0 70px rgb(134 205 158 / 0.35);
+}
+
+@utility night-sky {
+  background:
+    radial-gradient(120% 80% at 15% -10%, rgb(53 149 88 / 0.35), transparent 60%),
+    radial-gradient(90% 70% at 100% 10%, rgb(58 143 187 / 0.32), transparent 60%),
+    radial-gradient(80% 60% at 50% 120%, rgb(218 101 82 / 0.16), transparent 60%),
+    var(--color-night-950);
+}
+
+/* Ganti tema: animasi lingkaran diatur dari useTheme (View Transitions API). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
