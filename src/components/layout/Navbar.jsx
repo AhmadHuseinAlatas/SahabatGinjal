@@ -72,15 +72,13 @@ export default function Navbar() {
 
             <div className="flex items-center gap-2">
               <ThemeToggle theme={theme} onToggle={toggle} />
-              <Button
-                href="#bantuan"
-                variant="warm"
-                size="sm"
-                iconLeft={HeartHandshake}
-                className="hidden sm:inline-flex"
-              >
-                Butuh bantuan?
-              </Button>
+              {/* Pembungkus yang menyembunyikan tombol di layar sempit, supaya
+                  kelas display milik Button tidak saling bertabrakan. */}
+              <span className="hidden sm:inline-flex">
+                <Button href="#bantuan" variant="warm" size="sm" iconLeft={HeartHandshake}>
+                  Butuh bantuan?
+                </Button>
+              </span>
               <button
                 ref={burgerRef}
                 type="button"

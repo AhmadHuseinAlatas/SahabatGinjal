@@ -42,7 +42,7 @@ export default function Button({
       whileTap={{ scale: 0.97 }}
       transition={{ type: 'spring', stiffness: 420, damping: 24 }}
       className={cn(
-        'group inline-flex select-none items-center justify-center rounded-full font-semibold transition-colors duration-300 disabled:pointer-events-none disabled:opacity-45',
+        'group inline-flex max-w-full select-none items-center justify-center rounded-full text-center font-semibold whitespace-nowrap transition-colors duration-300 disabled:pointer-events-none disabled:opacity-45',
         VARIANTS[variant],
         SIZES[size],
         className,
