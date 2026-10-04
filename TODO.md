@@ -34,6 +34,20 @@ Cara menjalankan ada di [README.md](README.md).
 - Centang isi tas dan daftar pertanyaan tetap tersimpan di perangkat.
 - Saat setelan "kurangi gerak" menyala, animasi berhenti dan tidak ada isi yang hilang.
 
+## Checkpoint: perbaikan mode malam (belum di-commit)
+
+- [x] Bagian "Kalau hari ini terasa terlalu berat" (`#bantuan`) tetap terang di mode malam.
+      Penyebab: `dark:bg-coral-950/40` di `src/components/sections/CrisisHelp.jsx`, padahal
+      `coral-950` tidak ada di `@theme` (`src/index.css`), jadi Tailwind tidak membuat CSS-nya.
+      Diganti `dark:bg-coral-400/10`. Sudah dicek di browser: panel gelap, judul 12.95:1.
+- [x] Audit semua bagian di mode malam (390/834/1440): tidak ada latar terang lain,
+      kontras teks aman, tidak meluber, tidak ada error konsol. Build dan lint bersih.
+- [ ] Pemeriksaan ulang oleh reviewer belum jalan (dihentikan di sini).
+- [ ] Commit dan push perubahan `CrisisHelp.jsx`.
+- Catatan audit lengkap: `.agents/tasks/darkmode-fix/` (verification.md, baseline-findings.md).
+- Dibiarkan: tombol "Salin semua" saat nonaktif kontrasnya rendah (kontrol nonaktif dikecualikan
+  WCAG), cincin hiasan di Cek Perasaan agak terang di malam hari (kecil, dekoratif).
+
 ## Kalau mau dilanjutkan
 
 - [ ] Tombol "Gabung komunitas" kalau sudah ada tautan WhatsApp atau Instagram SahabatGinjal.
