@@ -1,37 +1,40 @@
-import { ChevronDown, HeartHandshake, Wind } from 'lucide-react'
+import {
+  ChevronRight,
+  HeartHandshake,
+  Hospital,
+  Phone,
+  Wind,
+  X,
+} from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
-import { NAV_CATEGORIES } from '../../data/navigation'
+import {
+  NAV_COMMUNITY_LINKS,
+  NAV_DIRECT_LINKS,
+  NAV_DROPDOWNS,
+} from '../../data/navigation'
 import { cn } from '../../lib/cn'
 import { EASE } from '../../lib/motion'
 import Button from '../ui/Button'
+import Logo from '../ui/Logo'
 
 const FOCUSABLE = '#site-header a, #site-header button, #menu-seluler a, #menu-seluler button'
 
 /**
- * Menu layar penuh untuk ponsel/tablet. Mengunci gulir, menutup dengan Escape,
- * dan menjaga fokus keyboard tetap di header + menu selama terbuka.
- *
- * Dikelompokkan per kategori agar mudah ditemukan oleh pengguna berusia lanjut.
+ * Menu seluler layar penuh yang ramah pengguna lanjut usia.
+ * - Tipografi besar & kontras tinggi
+ * - Tombol cepat untuk fitur utama (Cari RS, Ruang Tenang)
+ * - Pengelompokan kategori yang jelas dan tidak membingungkan
  */
 export default function MobileMenu({ open, onClose, active, returnFocusRef }) {
-  const firstLinkRef = useRef(null)
-  const [expandedCat, setExpandedCat] = useState(null)
-
-  // Auto-expand the category containing the active section
-  useEffect(() => {
-    if (open && active) {
-      const category = NAV_CATEGORIES.find((cat) => cat.links.some((l) => l.id === active))
-      if (category) setExpandedCat(category.key)
-    }
-  }, [open, active])
+  const containerRef = useRef(null)
+  const [activeTab, setActiveTab] = useState('edukasi')
 
   useEffect(() => {
     if (!open) return undefined
 
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    firstLinkRef.current?.focus()
 
     const onKeyDown = (event) => {
       if (event.key === 'Escape') {
@@ -53,8 +56,7 @@ export default function MobileMenu({ open, onClose, active, returnFocusRef }) {
       }
     }
 
-    // Tutup otomatis kalau layar melebar sampai menu desktop tampil.
-    const wide = window.matchMedia('(min-width: 80rem)')
+    const wide = window.matchMedia('(min-width: 64rem)')
     const onWide = (event) => event.matches && onClose()
 
     window.addEventListener('keydown', onKeyDown)
@@ -66,9 +68,8 @@ export default function MobileMenu({ open, onClose, active, returnFocusRef }) {
     }
   }, [open, onClose, returnFocusRef])
 
-  const toggleCategory = (key) => {
-    setExpandedCat((prev) => (prev === key ? null : key))
-  }
+  // Cari grup dropdown yang sedang dipilih
+  const currentGroup = NAV_DROPDOWNS.find((g) => g.key === activeTab) || NAV_DROPDOWNS[0]
 
   return (
     <AnimatePresence>
@@ -79,150 +80,212 @@ export default function MobileMenu({ open, onClose, active, returnFocusRef }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-40 xl:hidden"
+          transition={{ duration: 0.25 }}
+          className="fixed inset-0 z-50 flex flex-col bg-canvas lg:hidden"
         >
-          <div aria-hidden="true" onClick={onClose} className="absolute inset-0 bg-canvas/85 backdrop-blur-xl" />
+          {/* Header Menu Seluler */}
+          <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-4 sm:px-6">
+            <Logo onClick={onClose} />
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Tutup menu"
+              className="grid size-10 place-items-center rounded-full text-ink ring-1 ring-line-strong transition-colors hover:bg-surface-muted active:scale-95"
+            >
+              <X aria-hidden="true" className="size-5" />
+            </button>
+          </div>
 
-          <motion.nav
-            aria-label="Menu"
-            initial={{ y: -16, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -16, opacity: 0 }}
-            transition={{ duration: 0.4, ease: EASE }}
-            className="shell relative h-full overflow-y-auto pt-24 pb-10"
-          >
-            {/* Heading */}
-            <p className="mb-6 text-sm font-semibold uppercase tracking-wider text-ink-faint">
-              Menu Navigasi
-            </p>
+          {/* Konten Menu Seluler (Scrollable) */}
+          <div ref={containerRef} className="flex-1 overflow-y-auto px-4 py-5 sm:px-6">
+            {/* Quick Access Action Cards */}
+            <div className="mb-6 grid grid-cols-2 gap-2.5">
+              <a
+                href="#rumah-sakit"
+                onClick={onClose}
+                className={cn(
+                  'flex items-center gap-3 rounded-2xl p-3.5 transition-all ring-1',
+                  active === 'rumah-sakit'
+                    ? 'bg-primary text-white shadow-md ring-primary'
+                    : 'bg-primary/10 text-primary ring-primary/20 hover:bg-primary/15',
+                )}
+              >
+                <div
+                  className={cn(
+                    'grid size-10 shrink-0 place-items-center rounded-xl',
+                    active === 'rumah-sakit' ? 'bg-white/20 text-white' : 'bg-primary text-white',
+                  )}
+                >
+                  <Hospital aria-hidden="true" className="size-5" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold uppercase tracking-wider opacity-80">Direktori</p>
+                  <p className="font-bold text-sm leading-tight">Cari RS Terdekat</p>
+                </div>
+              </a>
 
-            {/* Categories */}
-            <div className="space-y-3">
-              {NAV_CATEGORIES.map((cat, catIndex) => {
-                const isExpanded = expandedCat === cat.key
-                const hasActiveChild = cat.links.some((l) => l.id === active)
+              <a
+                href="#tenang"
+                onClick={onClose}
+                className={cn(
+                  'flex items-center gap-3 rounded-2xl p-3.5 transition-all ring-1',
+                  active === 'tenang'
+                    ? 'bg-tide-600 text-white shadow-md ring-tide-600'
+                    : 'bg-tide-500/10 text-tide-700 dark:text-tide-300 ring-tide-500/20 hover:bg-tide-500/15',
+                )}
+              >
+                <div
+                  className={cn(
+                    'grid size-10 shrink-0 place-items-center rounded-xl',
+                    active === 'tenang' ? 'bg-white/20 text-white' : 'bg-tide-600 text-white',
+                  )}
+                >
+                  <Wind aria-hidden="true" className="size-5" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold uppercase tracking-wider opacity-80">Relaksasi</p>
+                  <p className="font-bold text-sm leading-tight">Ruang Tenang</p>
+                </div>
+              </a>
+            </div>
+
+            {/* Kategori Tab Switcher */}
+            <div className="mb-4">
+              <p className="mb-2 text-xs font-bold uppercase tracking-wider text-ink-faint">
+                Kategori Informasi
+              </p>
+              <div className="flex gap-1.5 rounded-2xl bg-surface-muted p-1 ring-1 ring-line">
+                {NAV_DROPDOWNS.map((group) => {
+                  const isSelected = activeTab === group.key
+                  return (
+                    <button
+                      key={group.key}
+                      type="button"
+                      onClick={() => setActiveTab(group.key)}
+                      className={cn(
+                        'flex-1 rounded-xl py-2 px-2 text-xs font-semibold whitespace-nowrap transition-all',
+                        isSelected
+                          ? 'bg-surface text-ink shadow-sm ring-1 ring-line'
+                          : 'text-ink-soft hover:text-ink',
+                      )}
+                    >
+                      {group.label}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Isi Link dalam Kategori Terpilih */}
+            <div className="mb-6 space-y-2">
+              {currentGroup.links.map((item) => {
+                const Icon = item.icon
+                const isLinkActive = active === item.id
 
                 return (
-                  <motion.div
-                    key={cat.key}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.06 + catIndex * 0.06, duration: 0.4, ease: EASE }}
+                  <a
+                    key={item.id}
+                    href={`#${item.id}`}
+                    onClick={onClose}
                     className={cn(
-                      'overflow-hidden rounded-2xl ring-1 transition-colors duration-300',
-                      hasActiveChild
-                        ? 'bg-primary/5 ring-primary/20'
-                        : 'bg-surface/60 ring-line',
+                      'flex items-center gap-3.5 rounded-2xl p-3.5 transition-all ring-1',
+                      isLinkActive
+                        ? 'bg-primary/10 ring-primary/30'
+                        : 'bg-surface/80 ring-line hover:bg-surface-muted',
                     )}
                   >
-                    {/* Category Header */}
-                    <button
-                      ref={catIndex === 0 ? firstLinkRef : undefined}
-                      type="button"
-                      onClick={() => toggleCategory(cat.key)}
-                      aria-expanded={isExpanded}
-                      className="flex w-full items-center gap-3 px-5 py-4 text-left"
-                    >
-                      <span className="text-2xl leading-none" aria-hidden="true">
-                        {cat.emoji}
-                      </span>
-                      <span className="flex-1">
-                        <span
-                          className={cn(
-                            'font-display text-xl leading-tight tracking-tight',
-                            hasActiveChild ? 'text-primary' : 'text-ink',
-                          )}
-                        >
-                          {cat.label}
-                        </span>
-                        <span className="mt-0.5 block text-xs text-ink-faint">
-                          {cat.links.length} halaman
-                        </span>
-                      </span>
-                      <ChevronDown
-                        aria-hidden="true"
-                        className={cn(
-                          'size-5 text-ink-faint transition-transform duration-300',
-                          isExpanded && 'rotate-180',
-                        )}
-                      />
-                    </button>
-
-                    {/* Category Links */}
-                    <AnimatePresence>
-                      {isExpanded && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: EASE }}
-                          className="overflow-hidden"
-                        >
-                          <div className="border-t border-line px-3 pt-2 pb-3">
-                            {cat.links.map((link) => {
-                              const Icon = link.icon
-                              const isActive = active === link.id
-                              return (
-                                <a
-                                  key={link.id}
-                                  href={`#${link.id}`}
-                                  onClick={onClose}
-                                  aria-current={isActive ? 'location' : undefined}
-                                  className={cn(
-                                    'group flex items-center gap-3 rounded-xl px-3 py-3 transition-colors duration-200',
-                                    isActive
-                                      ? 'bg-primary/10'
-                                      : 'hover:bg-surface-muted active:bg-surface-muted',
-                                  )}
-                                >
-                                  <span
-                                    className={cn(
-                                      'grid size-10 shrink-0 place-items-center rounded-xl transition-colors',
-                                      isActive
-                                        ? 'bg-primary/15 text-primary'
-                                        : 'bg-surface-muted text-ink-faint group-hover:text-primary',
-                                    )}
-                                  >
-                                    <Icon aria-hidden="true" className="size-5" />
-                                  </span>
-                                  <div className="min-w-0 flex-1">
-                                    <p
-                                      className={cn(
-                                        'text-base font-semibold',
-                                        isActive ? 'text-primary' : 'text-ink',
-                                      )}
-                                    >
-                                      {link.label}
-                                    </p>
-                                    <p className="mt-0.5 text-sm leading-snug text-ink-faint">
-                                      {link.desc}
-                                    </p>
-                                  </div>
-                                  {isActive && (
-                                    <span className="size-2 shrink-0 rounded-full bg-primary" />
-                                  )}
-                                </a>
-                              )
-                            })}
-                          </div>
-                        </motion.div>
+                    <span
+                      className={cn(
+                        'grid size-11 shrink-0 place-items-center rounded-xl transition-colors',
+                        isLinkActive
+                          ? 'bg-primary text-white shadow-sm'
+                          : 'bg-surface-muted text-ink-soft',
                       )}
-                    </AnimatePresence>
-                  </motion.div>
+                    >
+                      <Icon aria-hidden="true" className="size-5" />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p
+                        className={cn(
+                          'text-base font-bold leading-tight',
+                          isLinkActive ? 'text-primary' : 'text-ink',
+                        )}
+                      >
+                        {item.label}
+                      </p>
+                      <p className="mt-0.5 text-xs text-ink-soft leading-snug">
+                        {item.desc}
+                      </p>
+                    </div>
+                    <ChevronRight aria-hidden="true" className="size-4 shrink-0 text-ink-faint" />
+                  </a>
                 )
               })}
             </div>
 
-            <div className="mt-8 grid gap-3 sm:grid-cols-2">
-              <Button href="#tenang" variant="secondary" iconLeft={Wind} onClick={onClose}>
-                Ruang Tenang
-              </Button>
-              <Button href="#bantuan" variant="warm" iconLeft={HeartHandshake} onClick={onClose}>
-                Butuh bantuan?
-              </Button>
+            {/* Seksi Dukungan & Komunitas */}
+            <div className="mb-6">
+              <p className="mb-2 text-xs font-bold uppercase tracking-wider text-ink-faint">
+                Dukungan & Tanya Jawab
+              </p>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {NAV_COMMUNITY_LINKS.map((item) => {
+                  const Icon = item.icon
+                  const isLinkActive = active === item.id
+
+                  return (
+                    <a
+                      key={item.id}
+                      href={`#${item.id}`}
+                      onClick={onClose}
+                      className={cn(
+                        'flex items-center gap-3 rounded-2xl p-3 transition-colors ring-1',
+                        isLinkActive
+                          ? 'bg-primary/10 ring-primary/30'
+                          : 'bg-surface/60 ring-line hover:bg-surface',
+                      )}
+                    >
+                      <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-surface-muted text-ink-soft">
+                        <Icon aria-hidden="true" className="size-4" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-semibold text-ink leading-tight">
+                          {item.label}
+                        </p>
+                        <p className="text-xs text-ink-faint leading-snug mt-0.5">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </a>
+                  )
+                })}
+              </div>
             </div>
-          </motion.nav>
+
+            {/* Hotline Bantuan Darurat 119 */}
+            <div className="rounded-2xl bg-coral-500/10 p-4 ring-1 ring-coral-500/25">
+              <div className="flex items-start gap-3">
+                <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-coral-500 text-white shadow-sm">
+                  <Phone aria-hidden="true" className="size-4" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-bold text-coral-700 dark:text-coral-300">
+                    Layanan Bantuan Krisis 119 (ext. 8)
+                  </p>
+                  <p className="mt-0.5 text-xs text-ink-soft leading-relaxed">
+                    Bila kamu atau keluarga merasa sangat sesak, pusing hebat, atau cemas berlebih, segera hubungi 119 atau IGD terdekat.
+                  </p>
+                  <a
+                    href="tel:119"
+                    className="mt-2.5 inline-flex items-center gap-2 rounded-full bg-coral-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-coral-700"
+                  >
+                    <Phone aria-hidden="true" className="size-3.5" />
+                    Telepon 119 Sekarang
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

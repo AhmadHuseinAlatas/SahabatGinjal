@@ -27,10 +27,10 @@ export default function Logo({ className, onClick }) {
       href="#beranda"
       onClick={onClick}
       aria-label="SahabatGinjal, kembali ke atas halaman"
-      className={cn('group inline-flex items-center gap-3 rounded-full', className)}
+      className={cn('group inline-flex shrink-0 items-center gap-2.5 sm:gap-3 rounded-full', className)}
     >
-      <BrandBadge className="size-11 shadow-sm transition-transform duration-500 ease-soft group-hover:-rotate-12" />
-      <span aria-hidden="true" className="font-display text-[1.35rem] leading-none tracking-tight text-ink">
+      <BrandBadge className="size-9 sm:size-10 shadow-sm transition-transform duration-500 ease-soft group-hover:-rotate-12" />
+      <span aria-hidden="true" className="font-display text-lg sm:text-[1.25rem] leading-none tracking-tight text-ink whitespace-nowrap">
         Sahabat<em className="text-primary">Ginjal</em>
       </span>
     </a>

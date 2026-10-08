@@ -8,6 +8,7 @@ import {
   HeartPulse,
   Hospital,
   Lightbulb,
+  Phone,
   Pill,
   Plane,
   Shield,
@@ -19,113 +20,166 @@ import {
 } from 'lucide-react'
 
 /**
- * Kategori navigasi utama.
- * Setiap kategori memiliki label singkat yang tampil di navbar,
- * beserta daftar link di dalamnya.
- *
- * Desain ini disesuaikan untuk pengguna berusia lanjut agar
- * mudah ditemukan dan tidak membingungkan.
+ * 3 Kategori dropdown utama untuk desktop dan mobile.
+ * Dirancang ringkas, tidak memadati layar, dan mudah dipahami orang tua / keluarga pasien.
  */
-export const NAV_CATEGORIES = [
+export const NAV_DROPDOWNS = [
   {
-    key: 'kenali',
-    label: 'Kenali Ginjal',
-    emoji: '🫘',
+    key: 'edukasi',
+    label: 'Edukasi',
+    fullLabel: 'Edukasi Ginjal',
+    icon: BookOpen,
+    desc: 'Kenali risiko, stadium, dan pencegahan',
     links: [
-      { id: 'skrining', label: 'Cek Risiko', desc: 'Tes risiko ginjal 1 menit', icon: Activity },
+      {
+        id: 'skrining',
+        label: 'Cek Risiko Ginjal',
+        desc: 'Skrining mandiri 1 menit untuk deteksi dini',
+        icon: Activity,
+      },
       {
         id: 'stadium-ginjal',
-        label: '5 Stadium',
-        desc: 'Tahapan penyakit ginjal',
+        label: 'Peta 5 Stadium Ginjal',
+        desc: 'Penjelasan tahapan penurunan fungsi ginjal',
         icon: Stethoscope,
       },
-      { id: 'pencegahan', label: 'Pencegahan', desc: '8 aturan emas ginjal sehat', icon: Shield },
-      { id: 'perasaan', label: 'Perasaanmu', desc: 'Cek kondisi emosimu', icon: Smile },
+      {
+        id: 'pencegahan',
+        label: '8 Aturan Ginjal Sehat',
+        desc: 'Panduan menjaga fungsi ginjal agar tidak memburuk',
+        icon: Shield,
+      },
+      {
+        id: 'perasaan',
+        label: 'Perasaan & Emosi',
+        desc: 'Ruang untuk merangkul rasa takut, sedih, dan cemas',
+        icon: Smile,
+      },
     ],
   },
   {
     key: 'cuci-darah',
     label: 'Cuci Darah',
-    emoji: '💉',
+    fullLabel: 'Info Cuci Darah',
+    icon: HeartPulse,
+    desc: 'Penjelasan terapi hemodialisis & CAPD',
     links: [
-      { id: 'paham', label: 'Apa Itu Cuci Darah', desc: 'Penjelasan sederhana', icon: BookOpen },
-      { id: 'istilah', label: 'Kamus Istilah', desc: 'Arti kata-kata medis', icon: Lightbulb },
+      {
+        id: 'paham',
+        label: 'Mengenal Cuci Darah',
+        desc: 'Apa sebenarnya cuci darah itu dan bagaimana cara kerjanya',
+        icon: BookOpen,
+      },
       {
         id: 'pilihan',
-        label: 'HD atau CAPD',
-        desc: 'Bandingkan pilihan terapi',
+        label: 'Pilihan: HD vs CAPD',
+        desc: 'Bandingkan cuci darah mesin dengan cuci darah mandiri lewat perut',
         icon: HeartPulse,
       },
       {
         id: 'hari-pertama',
-        label: 'Hari Pertama',
-        desc: 'Menit per menit pertama kali',
+        label: 'Hari Pertama HD',
+        desc: 'Panduan menit demi menit agar tidak bingung di ruang dialisis',
         icon: Sparkles,
       },
-      { id: 'mitos', label: 'Mitos vs Fakta', desc: 'Luruskan salah paham', icon: CircleHelp },
+      {
+        id: 'istilah',
+        label: 'Kamus Istilah Medis',
+        desc: 'Arti kata AV Fistula, CDL, URR, Kt/V, dan istilah dokter lainnya',
+        icon: Lightbulb,
+      },
+      {
+        id: 'mitos',
+        label: 'Mitos vs Fakta Medis',
+        desc: 'Luruskan kabar burung yang sering menakut-nakuti pasien',
+        icon: CircleHelp,
+      },
     ],
   },
   {
-    key: 'hidup',
-    label: 'Hidup Sehari-hari',
-    emoji: '🍽️',
+    key: 'panduan',
+    label: 'Panduan Pasien',
+    fullLabel: 'Panduan Pasien',
+    icon: Utensils,
+    desc: 'Makanan, batasan minum, biaya, dan traveling',
     links: [
-      { id: 'harian', label: 'Hidup Harian', desc: 'Tips aktivitas sehari-hari', icon: Pill },
       {
         id: 'cairan',
         label: 'Kalkulator Cairan',
-        desc: 'Hitung batasan minummu',
+        desc: 'Hitung batas aman minum harian agar tidak sesak napas',
         icon: Droplets,
       },
       {
         id: 'makanan',
-        label: 'Panduan Nutrisi',
-        desc: 'Makanan yang aman & pantangan',
+        label: 'Panduan Makanan',
+        desc: 'Daftar makanan aman serta pantangan kalium & fosfat',
         icon: Utensils,
       },
       {
         id: 'biaya',
-        label: 'Biaya & BPJS',
-        desc: 'Alur dan estimasi biaya',
+        label: 'Biaya & Alur BPJS',
+        desc: 'Panduan memanfaatkan BPJS Kesehatan 100% tanpa biaya',
         icon: Calculator,
       },
       {
-        id: 'rumah-sakit',
-        label: 'Cari Rumah Sakit',
-        desc: 'RS dialisis terdekat',
-        icon: Hospital,
-      },
-      {
         id: 'bepergian',
-        label: 'Traveling / Mudik',
-        desc: 'Dialisis saat bepergian',
+        label: 'Mudik & Traveling',
+        desc: 'Tips bepergian aman dan mencari unit HD tamu di luar kota',
         icon: Plane,
       },
-    ],
-  },
-  {
-    key: 'dukungan',
-    label: 'Dukungan',
-    emoji: '💚',
-    links: [
-      { id: 'cerita', label: 'Cerita Sesama', desc: 'Kisah dari pasien lain', icon: HeartHandshake },
-      { id: 'tenang', label: 'Ruang Tenang', desc: 'Napas & suara penenang', icon: Wind },
-      { id: 'tanya', label: 'Tanya Dokter', desc: 'Pertanyaan jujur yang sering ditanya', icon: CircleHelp },
+      {
+        id: 'harian',
+        label: 'Aktivitas Harian',
+        desc: 'Tips beraktivitas, istirahat, dan menjaga semangat hidup',
+        icon: Pill,
+      },
     ],
   },
 ]
 
 /**
- * Tautan flat untuk navbar ringkas (quick-links yang paling sering diakses).
- * Ini akan tampil langsung di desktop navbar sebagai tombol utama.
+ * 2 Tautan langsung di navbar desktop untuk fitur yang paling sering dicari.
  */
-export const NAV_QUICK_LINKS = [
-  { id: 'skrining', label: 'Cek Risiko' },
-  { id: 'rumah-sakit', label: 'Cari RS' },
-  { id: 'tenang', label: 'Ruang Tenang' },
+export const NAV_DIRECT_LINKS = [
+  {
+    id: 'rumah-sakit',
+    label: 'Cari RS Terdekat',
+    icon: Hospital,
+    highlight: true,
+  },
+  {
+    id: 'tenang',
+    label: 'Ruang Tenang',
+    icon: Wind,
+    highlight: false,
+  },
 ]
 
-/** Semua bagian halaman secara berurutan, dipakai penanda menu aktif. */
+/**
+ * Kategori tambahan untuk komunitas & dukungan di mobile & footer.
+ */
+export const NAV_COMMUNITY_LINKS = [
+  {
+    id: 'cerita',
+    label: 'Kisah Sahabat',
+    desc: 'Cerita nyata dan semangat dari sesama pasien',
+    icon: HeartHandshake,
+  },
+  {
+    id: 'tanya',
+    label: 'Tanya Dokter',
+    desc: 'Pertanyaan penting yang wajib ditanyakan ke nefrolog',
+    icon: CircleHelp,
+  },
+  {
+    id: 'bantuan',
+    label: 'Bantuan Darurat 119',
+    desc: 'Layanan konsultasi krisis saat kondisi terasa sangat berat',
+    icon: Phone,
+  },
+]
+
+/** Semua ID section berurutan untuk scroll spy / active section. */
 export const SECTION_IDS = [
   'beranda',
   'skrining',
@@ -150,9 +204,10 @@ export const SECTION_IDS = [
   'langkah',
 ]
 
-/** Flat list of all nav link IDs for mapping active section to category. */
-export const SECTION_TO_CATEGORY = Object.fromEntries(
-  NAV_CATEGORIES.flatMap((cat) => cat.links.map((link) => [link.id, cat.key])),
-)
-
-export const FOOTER_LINKS = NAV_CATEGORIES
+/** Map setiap section ID ke dropdown key (untuk highlight active dropdown). */
+export const SECTION_TO_DROPDOWN = {}
+NAV_DROPDOWNS.forEach((group) => {
+  group.links.forEach((link) => {
+    SECTION_TO_DROPDOWN[link.id] = group.key
+  })
+})
