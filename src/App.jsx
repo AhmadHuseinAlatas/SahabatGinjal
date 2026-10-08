@@ -12,10 +12,14 @@ import DailyLife from './components/sections/DailyLife'
 import DialysisOptions from './components/sections/DialysisOptions'
 import Faq from './components/sections/Faq'
 import FirstDay from './components/sections/FirstDay'
+import FluidTracker from './components/sections/FluidTracker'
+import FoodGuide from './components/sections/FoodGuide'
+import Glossary from './components/sections/Glossary'
 import Hero from './components/sections/Hero'
 import MoodCheck from './components/sections/MoodCheck'
 import Myths from './components/sections/Myths'
 import Stories from './components/sections/Stories'
+import TravelDialysis from './components/sections/TravelDialysis'
 import Understand from './components/sections/Understand'
 
 export default function App() {
@@ -37,11 +41,15 @@ export default function App() {
         <Hero />
         <MoodCheck />
         <Understand />
+        <Glossary />
         <DialysisOptions />
         <FirstDay />
         <Myths />
         <DailyLife />
+        <FluidTracker />
+        <FoodGuide />
         <Cost />
+        <TravelDialysis />
         <Stories />
         <CalmRoom />
         <CrisisHelp />

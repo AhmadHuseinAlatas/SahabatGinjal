@@ -16,7 +16,7 @@ export default function Faq() {
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeading
             id="judul-tanya"
-            number="10"
+            number="14"
             kicker="Tanya jujur"
             title={
               <>
@@ -36,8 +36,9 @@ export default function Faq() {
                   <h3>
                     <button
                       type="button"
+                      id={`tanya-${item.id}`}
                       aria-expanded={open}
-                      aria-controls={`jawab-${item.id}`}
+                      aria-controls={open ? `jawab-${item.id}` : undefined}
                       onClick={() => setOpenId(open ? null : item.id)}
                       className="flex w-full items-start justify-between gap-5 py-5 text-left"
                     >
@@ -58,6 +59,8 @@ export default function Faq() {
                       <motion.div
                         key="isi"
                         id={`jawab-${item.id}`}
+                        role="region"
+                        aria-labelledby={`tanya-${item.id}`}
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}

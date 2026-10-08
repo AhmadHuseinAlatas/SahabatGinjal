@@ -47,7 +47,7 @@ export default function Myths() {
       <div className="shell">
         <SectionHeading
           id="judul-mitos"
-          number="05"
+          number="06"
           kicker="Bersihkan dulu kepalanya"
           title={
             <>

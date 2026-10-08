@@ -53,7 +53,7 @@ export default function DialysisOptions() {
       <div className="shell">
         <SectionHeading
           id="judul-pilihan"
-          number="03"
+          number="04"
           kicker="Kamu punya pilihan"
           title={
             <>

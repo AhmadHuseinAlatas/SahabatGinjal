@@ -22,7 +22,20 @@ export default function useActiveSection(ids) {
     )
 
     elements.forEach((element) => observer.observe(element))
-    return () => observer.disconnect()
+
+    const onScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80) {
+        if (ids.length > 0) {
+          setActive(ids[ids.length - 1])
+        }
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', onScroll)
+    }
   }, [ids])
 
   return active

@@ -1,10 +1,11 @@
-import { Pause, Play, Sparkles } from 'lucide-react'
+import { Pause, Play, Sparkles, Volume2, VolumeX } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AFFIRMATIONS, BREATH_PATTERNS, STARS } from '../../data/calm'
 import useBreathing from '../../hooks/useBreathing'
 import { cn } from '../../lib/cn'
 import { EASE } from '../../lib/motion'
+import { playAmbientRain, stopAmbientRain } from '../../lib/soundscape'
 import Accent from '../ui/Accent'
 import Button from '../ui/Button'
 import Reveal from '../ui/Reveal'
@@ -137,6 +138,60 @@ function Affirmation() {
   )
 }
 
+function SoundscapeControl() {
+  const [playing, setPlaying] = useState(false)
+
+  useEffect(() => {
+    return () => {
+      stopAmbientRain()
+    }
+  }, [])
+
+  const toggleSound = () => {
+    if (playing) {
+      stopAmbientRain()
+      setPlaying(false)
+    } else {
+      const ok = playAmbientRain(0.3)
+      if (ok) setPlaying(true)
+    }
+  }
+
+  return (
+    <div className="mt-6 flex flex-wrap items-center gap-3">
+      <button
+        type="button"
+        onClick={toggleSound}
+        className={cn(
+          'inline-flex min-h-10 items-center gap-2 rounded-full px-4 text-xs font-semibold ring-1 transition-all sm:text-sm',
+          playing
+            ? 'bg-tide-400 text-night-950 ring-tide-300 shadow-md'
+            : 'bg-white/10 text-white/90 ring-white/20 hover:bg-white/15 hover:text-white',
+        )}
+      >
+        {playing ? (
+          <>
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-night-950 opacity-75" />
+              <span className="relative inline-flex size-2 rounded-full bg-night-950" />
+            </span>
+            <Volume2 className="size-4" />
+            <span>Suara Hujan: Mengalun</span>
+          </>
+        ) : (
+          <>
+            <VolumeX className="size-4 text-white/70" />
+            <span>Putar Suara Hujan Penenang</span>
+          </>
+        )}
+      </button>
+      <span className="text-xs text-white/60">
+        Suara rintik hujan lembut sintetis (ringan &amp; tanpa kuota internet).
+      </span>
+    </div>
+  )
+}
+
 export default function CalmRoom() {
   return (
     <section id="tenang" aria-labelledby="judul-tenang" className="py-12 sm:py-20">
@@ -147,7 +202,7 @@ export default function CalmRoom() {
             <div>
               <SectionHeading
                 id="judul-tenang"
-                number="09"
+                number="13"
                 kicker="Ruang Tenang"
                 title={
                   <>
@@ -158,6 +213,7 @@ export default function CalmRoom() {
               />
               <Reveal delay={0.15} className="mt-10">
                 <Affirmation />
+                <SoundscapeControl />
               </Reveal>
             </div>
             <Reveal delay={0.1}>

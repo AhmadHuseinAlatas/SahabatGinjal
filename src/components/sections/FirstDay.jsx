@@ -42,10 +42,14 @@ function Timeline() {
 
 function BagChecklist() {
   const [checked, setChecked] = useLocalStorage('sg-kit', [])
-  const done = BAG_KIT.filter((item) => checked.includes(item.id)).length
+  const checkedList = Array.isArray(checked) ? checked : []
+  const done = BAG_KIT.filter((item) => checkedList.includes(item.id)).length
 
   const toggle = (id) =>
-    setChecked((list) => (list.includes(id) ? list.filter((value) => value !== id) : [...list, id]))
+    setChecked((list) => {
+      const current = Array.isArray(list) ? list : []
+      return current.includes(id) ? current.filter((value) => value !== id) : [...current, id]
+    })
 
   return (
     <div className="card p-6 sm:p-7">
@@ -68,7 +72,7 @@ function BagChecklist() {
 
       <ul aria-labelledby="judul-tas" className="mt-5 grid gap-1">
         {BAG_KIT.map((item) => {
-          const isChecked = checked.includes(item.id)
+          const isChecked = checkedList.includes(item.id)
           return (
             <li key={item.id}>
               <label className="flex cursor-pointer items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-surface-muted">
@@ -108,7 +112,7 @@ export default function FirstDay() {
       <div className="shell">
         <SectionHeading
           id="judul-hari-pertama"
-          number="04"
+          number="05"
           kicker="Supaya tidak ada kejutan"
           title={
             <>

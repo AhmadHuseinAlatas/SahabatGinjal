@@ -11,7 +11,7 @@ export default function Cost() {
       <div className="shell">
         <SectionHeading
           id="judul-biaya"
-          number="07"
+          number="10"
           kicker="Pertanyaan yang jarang berani ditanya"
           title={
             <>

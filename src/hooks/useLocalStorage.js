@@ -5,7 +5,13 @@ export default function useLocalStorage(key, initialValue) {
   const [value, setValue] = useState(() => {
     try {
       const raw = localStorage.getItem(key)
-      return raw !== null ? JSON.parse(raw) : initialValue
+      if (raw === null) return initialValue
+      const parsed = JSON.parse(raw)
+      // Jika initialValue adalah array, pastikan parsed juga array
+      if (Array.isArray(initialValue) && !Array.isArray(parsed)) {
+        return initialValue
+      }
+      return parsed
     } catch {
       return initialValue
     }
@@ -21,3 +27,4 @@ export default function useLocalStorage(key, initialValue) {
 
   return [value, setValue]
 }
+
