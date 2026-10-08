@@ -112,7 +112,7 @@ export default function FirstDay() {
       <div className="shell">
         <SectionHeading
           id="judul-hari-pertama"
-          number="05"
+          number="09"
           kicker="Supaya tidak ada kejutan"
           title={
             <>

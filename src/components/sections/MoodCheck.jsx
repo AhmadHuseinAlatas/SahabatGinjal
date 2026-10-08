@@ -96,8 +96,8 @@ export default function MoodCheck() {
       <div className="shell">
         <SectionHeading
           id="judul-perasaan"
-          number="01"
-          kicker="Mulai dari sini"
+          number="05"
+          kicker="Ruang Empati Dialisis"
           title={
             <>
               Bagaimana perasaanmu <Accent tone="coral">hari ini?</Accent>

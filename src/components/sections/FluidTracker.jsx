@@ -96,7 +96,7 @@ export default function FluidTracker() {
       <div className="shell">
         <SectionHeading
           id="judul-cairan"
-          number="08"
+          number="12"
           kicker="Kalkulator & Pelacak Praktis"
           title={
             <>

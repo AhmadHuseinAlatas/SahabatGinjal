@@ -12,7 +12,7 @@ export default function Stories() {
       <div className="shell">
         <SectionHeading
           id="judul-cerita"
-          number="12"
+          number="16"
           kicker="Bukan hanya kamu"
           title={
             <>

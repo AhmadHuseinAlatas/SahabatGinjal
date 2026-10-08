@@ -45,7 +45,7 @@ export default function FoodGuide() {
       <div className="shell">
         <SectionHeading
           id="judul-makanan"
-          number="09"
+          number="13"
           kicker="Panduan Nutrisi Ginjal"
           title={
             <>

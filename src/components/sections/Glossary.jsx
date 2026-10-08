@@ -30,7 +30,7 @@ export default function Glossary() {
       <div className="shell">
         <SectionHeading
           id="judul-istilah"
-          number="03"
+          number="07"
           kicker="Kamus Bahasa Manusia"
           title={
             <>

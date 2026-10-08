@@ -202,7 +202,7 @@ export default function CalmRoom() {
             <div>
               <SectionHeading
                 id="judul-tenang"
-                number="13"
+                number="17"
                 kicker="Ruang Tenang"
                 title={
                   <>

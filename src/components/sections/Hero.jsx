@@ -42,7 +42,7 @@ export default function Hero() {
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-coral-400 opacity-70" />
               <span className="relative inline-flex size-2.5 rounded-full bg-coral-500" />
             </span>
-            Untuk kamu yang baru saja mendengar kata itu
+            Edukasi pencegahan dini &amp; ruang tenang dialisis
           </motion.p>
 
           <h1 id="judul-beranda" className="mt-7 font-display text-display font-normal text-ink">
@@ -85,9 +85,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.55, ease: EASE }}
             className="mt-8 max-w-xl text-lg leading-relaxed text-ink-soft sm:text-xl"
           >
-            Mungkin dokter baru menyebut “cuci darah” dan dunia terasa menyempit. Mungkin kamu sudah
-            menjalaninya berbulan-bulan dan lelah menjelaskan pada orang lain. Di sini kamu tidak perlu
-            kuat dulu untuk boleh membaca.
+            Ruang tenang untuk merawat ginjalmu: kenali cara mencegahnya sedini mungkin, atau pahami cuci darah tanpa rasa takut jika kamu atau keluargamu sedang menjalaninya. Di sini kamu tidak sendiri.
           </motion.p>
 
           <motion.div
@@ -96,11 +94,11 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.7, ease: EASE }}
             className="mt-9 flex flex-wrap gap-3"
           >
-            <Button href="#perasaan" size="lg" icon={ArrowRight}>
-              Mulai dari perasaanku
+            <Button href="#skrining" size="lg" icon={ArrowRight}>
+              Mencegah &amp; Cek Risiko
             </Button>
-            <Button href="#paham" size="lg" variant="secondary">
-              Aku cuma ingin tahu
+            <Button href="#perasaan" size="lg" variant="secondary">
+              Sedang Menghadapi Dialisis
             </Button>
           </motion.div>
 

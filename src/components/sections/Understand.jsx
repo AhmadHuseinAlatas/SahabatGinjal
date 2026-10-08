@@ -48,7 +48,7 @@ export default function Understand() {
       <div className="shell">
         <SectionHeading
           id="judul-paham"
-          number="02"
+          number="06"
           kicker="Penjelasan tanpa istilah menakutkan"
           title={
             <>

@@ -1,9 +1,10 @@
 /** Tautan yang tampil di menu utama. `id` = id bagian di halaman. */
 export const NAV_LINKS = [
+  { id: 'skrining', label: 'Cek Risiko' },
+  { id: 'stadium-ginjal', label: '5 Stadium' },
+  { id: 'pencegahan', label: 'Pencegahan' },
   { id: 'perasaan', label: 'Perasaanmu' },
-  { id: 'paham', label: 'Memahami' },
-  { id: 'pilihan', label: 'Pilihan terapi' },
-  { id: 'hari-pertama', label: 'Hari pertama' },
+  { id: 'pilihan', label: 'Pilihan Terapi' },
   { id: 'cairan', label: 'Kalkulator Cairan' },
   { id: 'makanan', label: 'Panduan Nutrisi' },
   { id: 'biaya', label: 'Biaya BPJS' },
@@ -13,6 +14,9 @@ export const NAV_LINKS = [
 /** Semua bagian halaman secara berurutan, dipakai penanda menu aktif. */
 export const SECTION_IDS = [
   'beranda',
+  'skrining',
+  'stadium-ginjal',
+  'pencegahan',
   'perasaan',
   'paham',
   'istilah',
@@ -32,6 +36,9 @@ export const SECTION_IDS = [
 ]
 
 export const FOOTER_LINKS = [
+  { id: 'skrining', label: 'Skrining risiko ginjal 1 menit' },
+  { id: 'stadium-ginjal', label: 'Peta 5 stadium penyakit ginjal' },
+  { id: 'pencegahan', label: 'Daftar merah & 8 aturan emas' },
   { id: 'perasaan', label: 'Perasaanmu hari ini' },
   { id: 'paham', label: 'Apa itu cuci darah' },
   { id: 'istilah', label: 'Kamus istilah medis' },

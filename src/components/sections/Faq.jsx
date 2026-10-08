@@ -16,7 +16,7 @@ export default function Faq() {
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeading
             id="judul-tanya"
-            number="14"
+            number="18"
             kicker="Tanya jujur"
             title={
               <>

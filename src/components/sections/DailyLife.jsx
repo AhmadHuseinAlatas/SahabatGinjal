@@ -10,7 +10,7 @@ export default function DailyLife() {
       <div className="shell">
         <SectionHeading
           id="judul-harian"
-          number="07"
+          number="11"
           kicker="Di antara jadwal"
           title={
             <>

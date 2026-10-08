@@ -1,20 +1,22 @@
 # Status pengerjaan SahabatGinjal
 
-**Selesai & Diperbarui.** Semua fitur yang diminta dan perbaikan temuan kode telah selesai diimplementasikan dengan build dan lint bersih.
+**Selesai & Lengkap (Pencegahan & Dialisis).** SahabatGinjal kini menjadi platform terpadu: dari deteksi dini & pencegahan kerusakan ginjal hingga pendampingan ramah bagi yang menjalani cuci darah.
 
 ## Yang sudah dikerjakan
 
 - [x] Proyek Vite + React + Tailwind CSS + Motion, lint dengan oxlint.
 - [x] Aset logo: lencana untuk situs, favicon, dan ikon layar utama.
 - [x] Token desain di `src/index.css`: warna dari logo, mode pagi/malam, font, utilitas.
-- [x] Semua isi teks di `src/data/`.
+- [x] Semua isi teks di `src/data/` (termasuk modul pencegahan di `src/data/prevention.js`).
 - [x] Hooks: tema, penyimpanan lokal, bagian aktif, latihan napas, posisi gulir.
 - [x] Komponen dasar di `src/components/ui/` dan layout di `src/components/layout/`.
-- [x] 17 bagian halaman terstruktur:
-      Hero, Cek Perasaan, Memahami, Kamus Istilah (Glosarium), Dua Jalan (HD/CAPD),
+- [x] 20 bagian halaman terstruktur:
+      Hero (Dua Jalur: Mencegah vs Menjalani),
+      Skrining Mandiri Risiko Ginjal (1 Menit), Peta 5 Stadium Ginjal, Perlindungan & 8 Aturan Emas (Zat Toksik & Cek Lab),
+      Cek Perasaan, Memahami, Kamus Istilah (Glosarium), Dua Jalan (HD/CAPD),
       Hari Pertama, Mitos, Hidup Sehari-hari, Kalkulator Batas Cairan, Panduan Nutrisi (Kalium/Fosfat),
-      Biaya BPJS, Traveling Dialysis (Bepergian), Cerita, Ruang Tenang (dengan Soundscape Suara Hujan Sintetis),
-      Bantuan Krisis, Tanya Jujur, dan Satu Langkah Kecil (dengan Preset Pertanyaan Dokter).
+      Biaya BPJS, Traveling Dialysis (Bepergian), Cerita, Ruang Tenang (dengan Soundscape Hujan Sintetis),
+      Bantuan Krisis, Tanya Jujur, dan Satu Langkah Kecil (Preset Pertanyaan Dokter).
 - [x] Perbaikan bug & hardening aksesibilitas:
       - Toast visual untuk status salin/bagikan di `CallToAction`.
       - Guard pencegah crash array pada `useLocalStorage` & `FirstDay`.
@@ -22,23 +24,22 @@
       - Peningkatan deteksi akhir dokumen pada `useActiveSection`.
 - [x] `npm run build` dan `npm run lint` bersih (0 warning, 0 error).
 
-## Fitur Baru yang Ditambahkan
+## Fitur Pencegahan & Deteksi Dini yang Baru Ditambahkan
 
-1. **Preset Pertanyaan Dokter (Dokter FAQ Chips):**
-   - Tombol chips siap klik di bagian Satu Langkah Kecil untuk langsung menambahkan pertanyaan umum ke catatan konsultasi.
-2. **Kalkulator / Pelacak Pembatasan Cairan Harian (`#cairan`):**
-   - Pelacak asupan cairan interaktif dengan target fleksibel (500, 600, 800, 1000 ml).
-   - Tombol catat cepat (+30ml es batu, +50ml obat, +100ml kuah, +150ml gelas kecil).
-   - Progress bar dinamis dan trik menahan haus (kumur air es, semprotan dingin, permen asam).
-3. **Panduan Makanan Kalium & Fosfat (`#makanan`):**
-   - Pencarian makanan lokal Indonesia dengan filter kategori dan tingkat keamanan (🟢 Aman, 🟡 Sedang, 🔴 Tinggi).
-   - Panduan praktis teknik *Leaching* (merendam sayuran di air hangat untuk membuang kalium).
-4. **Soundscape Suara Hujan Penenang (`#tenang`):**
-   - Generator suara ambien rintik hujan sintetis murni menggunakan Web Audio API (0 KB download, tanpa aset eksternal).
-5. **Glosarium Istilah Medis Dialisis (`#istilah`):**
-   - Kamus bahasa manusia untuk istilah asing seperti Cimino, CDL, Dry Weight, Kt/V, EPO, Hiperkalemia, dan Dialiser.
-6. **Panduan Traveling Dialysis / Mudik (`#bepergian`):**
-   - 4 langkah persiapan sesi tamu di RS kota tujuan dan checklist berkas tas kabin.
+1. **Skrining Mandiri Risiko Ginjal 1 Menit (`#skrining`):**
+   - Kuesioner interaktif 6 pertanyaan faktor risiko (tensi, gula darah, obat nyeri/jamu, busa urine, bengkak, air putih).
+   - Analisis skor otomatis dan rekomendasi medis konkret (Puskesmas / Faskes 1).
+2. **Peta 5 Stadium Penyakit Ginjal Kronis (`#stadium-ginjal`):**
+   - Edukasi horizontal 5 stadium (eGFR >90% hingga <15%).
+   - Menegaskan bahwa Stadium 1–3b **belum butuh cuci darah** dan fungsi ginjal bisa dipertahankan puluhan tahun jika dijaga ketat.
+3. **Daftar Merah: 5 Zat & Kebiasaan Perusak Ginjal (`#pencegahan`):**
+   - Kartu edukasi bahaya NSAID berlebih, jamu pegal linu ber-BKO ilegal, garam tersembunyi, minuman manis bersoda, dan menahan kencing.
+4. **8 Aturan Emas Merawat Ginjal Sehat:**
+   - Rekomendasi harian terstandar dari International Society of Nephrology & World Kidney Day.
+5. **Panduan Cek Lab Sederhana di Puskesmas BPJS:**
+   - Edukasi tes urine (proteinuria/albuminuria), tes darah kreatinin & eGFR, ureum, dan kalimat mudah untuk berkonsultasi ke dokter.
+6. **Dua Jalur di Beranda:**
+   - Tombol ramah di Hero: *"Mencegah & Cek Risiko"* vs *"Sedang Menghadapi Dialisis"*.
 
 ## Kalau mau dilanjutkan
 

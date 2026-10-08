@@ -16,6 +16,9 @@ import FluidTracker from './components/sections/FluidTracker'
 import FoodGuide from './components/sections/FoodGuide'
 import Glossary from './components/sections/Glossary'
 import Hero from './components/sections/Hero'
+import KidneyProtection from './components/sections/KidneyProtection'
+import KidneyScreening from './components/sections/KidneyScreening'
+import KidneyStages from './components/sections/KidneyStages'
 import MoodCheck from './components/sections/MoodCheck'
 import Myths from './components/sections/Myths'
 import Stories from './components/sections/Stories'
@@ -39,6 +42,9 @@ export default function App() {
 
       <main id="konten" tabIndex={-1}>
         <Hero />
+        <KidneyScreening />
+        <KidneyStages />
+        <KidneyProtection />
         <MoodCheck />
         <Understand />
         <Glossary />
