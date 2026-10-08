@@ -16,6 +16,7 @@ import FluidTracker from './components/sections/FluidTracker'
 import FoodGuide from './components/sections/FoodGuide'
 import Glossary from './components/sections/Glossary'
 import Hero from './components/sections/Hero'
+import HospitalsDirectory from './components/sections/HospitalsDirectory'
 import KidneyProtection from './components/sections/KidneyProtection'
 import KidneyScreening from './components/sections/KidneyScreening'
 import KidneyStages from './components/sections/KidneyStages'
@@ -55,6 +56,7 @@ export default function App() {
         <FluidTracker />
         <FoodGuide />
         <Cost />
+        <HospitalsDirectory />
         <TravelDialysis />
         <Stories />
         <CalmRoom />

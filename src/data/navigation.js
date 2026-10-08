@@ -8,6 +8,7 @@ export const NAV_LINKS = [
   { id: 'cairan', label: 'Kalkulator Cairan' },
   { id: 'makanan', label: 'Panduan Nutrisi' },
   { id: 'biaya', label: 'Biaya BPJS' },
+  { id: 'rumah-sakit', label: 'Cari RS' },
   { id: 'tanya', label: 'Tanya' },
 ]
 
@@ -27,6 +28,7 @@ export const SECTION_IDS = [
   'cairan',
   'makanan',
   'biaya',
+  'rumah-sakit',
   'bepergian',
   'cerita',
   'tenang',
@@ -49,6 +51,7 @@ export const FOOTER_LINKS = [
   { id: 'cairan', label: 'Kalkulator pembatasan cairan' },
   { id: 'makanan', label: 'Panduan kalium & fosfat' },
   { id: 'biaya', label: 'Biaya & alur BPJS' },
+  { id: 'rumah-sakit', label: 'Direktori RS dialisis terdekat' },
   { id: 'bepergian', label: 'Traveling dialysis (mudik)' },
   { id: 'cerita', label: 'Suara dari kursi sebelah' },
   { id: 'tenang', label: 'Ruang Tenang & Soundscape' },

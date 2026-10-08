@@ -10,13 +10,23 @@
 - [x] Semua isi teks di `src/data/` (termasuk modul pencegahan di `src/data/prevention.js`).
 - [x] Hooks: tema, penyimpanan lokal, bagian aktif, latihan napas, posisi gulir.
 - [x] Komponen dasar di `src/components/ui/` dan layout di `src/components/layout/`.
-- [x] 20 bagian halaman terstruktur:
+- [x] 21 bagian halaman terstruktur:
       Hero (Dua Jalur: Mencegah vs Menjalani),
       Skrining Mandiri Risiko Ginjal (1 Menit), Peta 5 Stadium Ginjal, Perlindungan & 8 Aturan Emas (Zat Toksik & Cek Lab),
       Cek Perasaan, Memahami, Kamus Istilah (Glosarium), Dua Jalan (HD/CAPD),
       Hari Pertama, Mitos, Hidup Sehari-hari, Kalkulator Batas Cairan, Panduan Nutrisi (Kalium/Fosfat),
-      Biaya BPJS, Traveling Dialysis (Bepergian), Cerita, Ruang Tenang (dengan Soundscape Hujan Sintetis),
+      Biaya BPJS, Direktori RS Cuci Darah Terdekat (BPJS/Swasta, Kapasitas & Ramah Lansia),
+      Traveling Dialysis (Bepergian), Cerita, Ruang Tenang (dengan Soundscape Multi-Audio Sintetis & Timer),
       Bantuan Krisis, Tanya Jujur, dan Satu Langkah Kecil (Preset Pertanyaan Dokter).
+- [x] Fitur Baru Direktori Rumah Sakit & Klinik Dialisis (`#rumah-sakit`):
+      - Deteksi GPS otomatis untuk menemukan RS terdekat (rumus Haversine).
+      - Filter BPJS 100% Ditanggung vs Swasta/Eksekutif.
+      - Metrik kapasitas mesin HD, estimasi pasien harian, dan sistem shift.
+      - Desain ramah lansia: mode teks besar, tombol telepon langsung, dan petunjuk Google Maps.
+- [x] Perbaikan Mesin Suara Ruang Tenang:
+      - Menghapus tabrakan timeout (bisa diputar berkali-kali tanpa batas).
+      - Menambahkan 4 preset sintetis (Hujan, Ombak Laut, Brown Noise Masking, Harmoni 432 Hz).
+      - Pengatur volume dan timer mati otomatis (5m, 15m, 30m).
 - [x] Perbaikan bug & hardening aksesibilitas:
       - Toast visual untuk status salin/bagikan di `CallToAction`.
       - Guard pencegah crash array pada `useLocalStorage` & `FirstDay`.

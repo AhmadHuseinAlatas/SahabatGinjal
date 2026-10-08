@@ -41,17 +41,17 @@ export default function Navbar() {
             <Logo onClick={closeMenu} />
 
             <nav aria-label="Navigasi utama" className="hidden xl:block">
-              <ul className="flex items-center gap-0.5">
+              <ul className="flex items-center gap-0.5 whitespace-nowrap">
                 {NAV_LINKS.map((link) => {
                   const isActive = active === link.id
                   return (
-                    <li key={link.id}>
+                    <li key={link.id} className="shrink-0">
                       <a
                         href={`#${link.id}`}
                         aria-current={isActive ? 'location' : undefined}
                         className={cn(
-                          'relative block rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-300',
-                          isActive ? 'text-ink' : 'text-ink-soft hover:text-ink',
+                          'relative block whitespace-nowrap rounded-full px-2.5 py-1.5 text-xs font-medium transition-colors duration-300 2xl:px-3.5 2xl:py-2 2xl:text-sm',
+                          isActive ? 'text-ink font-semibold' : 'text-ink-soft hover:text-ink',
                         )}
                       >
                         {isActive && (

@@ -1,11 +1,11 @@
-import { Pause, Play, Sparkles, Volume2, VolumeX } from 'lucide-react'
+import { CloudRain, Pause, Play, Radio, Sparkles, Timer, Volume2, Waves } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { AFFIRMATIONS, BREATH_PATTERNS, STARS } from '../../data/calm'
 import useBreathing from '../../hooks/useBreathing'
 import { cn } from '../../lib/cn'
 import { EASE } from '../../lib/motion'
-import { playAmbientRain, stopAmbientRain } from '../../lib/soundscape'
+import { SOUND_PRESETS, playAmbientSound, setAmbientVolume, stopAmbientSound } from '../../lib/soundscape'
 import Accent from '../ui/Accent'
 import Button from '../ui/Button'
 import Reveal from '../ui/Reveal'
@@ -140,54 +140,221 @@ function Affirmation() {
 
 function SoundscapeControl() {
   const [playing, setPlaying] = useState(false)
+  const [soundType, setSoundType] = useState('rain')
+  const [volume, setVolume] = useState(0.35)
+  const [timerMinutes, setTimerMinutes] = useState(0)
+  const [timeLeft, setTimeLeft] = useState(null)
 
+  const hasTimer = timeLeft !== null
+
+  // Timer countdown interval
+  useEffect(() => {
+    if (!playing || !hasTimer) return
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev === null) return null
+        if (prev <= 1) {
+          stopAmbientSound()
+          setPlaying(false)
+          return null
+        }
+        return prev - 1
+      })
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [playing, hasTimer])
+
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
-      stopAmbientRain()
+      stopAmbientSound(true)
     }
   }, [])
 
-  const toggleSound = () => {
+  const handleToggle = async () => {
     if (playing) {
-      stopAmbientRain()
+      stopAmbientSound()
       setPlaying(false)
+      setTimeLeft(null)
     } else {
-      const ok = playAmbientRain(0.3)
-      if (ok) setPlaying(true)
+      const ok = await playAmbientSound(soundType, volume)
+      if (ok) {
+        setPlaying(true)
+        if (timerMinutes > 0) setTimeLeft(timerMinutes * 60)
+      }
     }
   }
 
+  const handleSoundChange = async (newType) => {
+    setSoundType(newType)
+    if (playing) {
+      await playAmbientSound(newType, volume)
+    }
+  }
+
+  const handleVolumeChange = (e) => {
+    const val = parseFloat(e.target.value)
+    setVolume(val)
+    setAmbientVolume(val)
+  }
+
+  const handleTimerChange = (min) => {
+    setTimerMinutes(min)
+    if (min === 0) {
+      setTimeLeft(null)
+    } else if (playing) {
+      setTimeLeft(min * 60)
+    }
+  }
+
+  const formatTime = (seconds) => {
+    if (seconds === null) return ''
+    const m = Math.floor(seconds / 60)
+    const s = seconds % 60
+    return `${m}:${s < 10 ? '0' : ''}${s}`
+  }
+
+  const iconMap = {
+    rain: CloudRain,
+    waves: Waves,
+    brown: Radio,
+    meditation: Sparkles,
+  }
+
+  const activePreset = SOUND_PRESETS.find((p) => p.id === soundType) || SOUND_PRESETS[0]
+
   return (
-    <div className="mt-6 flex flex-wrap items-center gap-3">
-      <button
-        type="button"
-        onClick={toggleSound}
-        className={cn(
-          'inline-flex min-h-10 items-center gap-2 rounded-full px-4 text-xs font-semibold ring-1 transition-all sm:text-sm',
-          playing
-            ? 'bg-tide-400 text-night-950 ring-tide-300 shadow-md'
-            : 'bg-white/10 text-white/90 ring-white/20 hover:bg-white/15 hover:text-white',
+    <div className="mt-8 rounded-3xl bg-white/5 p-5 ring-1 ring-white/10 sm:p-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h3 className="text-sm font-semibold tracking-wide text-white/90">
+            Suara Ambien Penenang (Soundscape)
+          </h3>
+          <p className="mt-0.5 text-xs text-white/60">
+            Sintetis murni tanpa aset audio eksternal • Ringan &amp; hemat kuota • Bisa diputar berulang kali
+          </p>
+        </div>
+
+        {/* Status Sisa Waktu Timer jika aktif */}
+        {playing && timeLeft !== null && (
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-tide-400/20 px-3 py-1 text-xs font-semibold text-tide-200 ring-1 ring-tide-300/30">
+            <Timer className="size-3.5" />
+            Mati dalam {formatTime(timeLeft)}
+          </span>
         )}
-      >
-        {playing ? (
-          <>
-            <span className="relative flex size-2">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-night-950 opacity-75" />
-              <span className="relative inline-flex size-2 rounded-full bg-night-950" />
-            </span>
-            <Volume2 className="size-4" />
-            <span>Suara Hujan: Mengalun</span>
-          </>
-        ) : (
-          <>
-            <VolumeX className="size-4 text-white/70" />
-            <span>Putar Suara Hujan Penenang</span>
-          </>
-        )}
-      </button>
-      <span className="text-xs text-white/60">
-        Suara rintik hujan lembut sintetis (ringan &amp; tanpa kuota internet).
-      </span>
+      </div>
+
+      {/* Pilihan Jenis Suara */}
+      <div className="mt-4 flex flex-wrap gap-2" role="radiogroup" aria-label="Pilihan jenis suara ambien">
+        {SOUND_PRESETS.map((preset) => {
+          const active = preset.id === soundType
+          const IconComp = iconMap[preset.id] || CloudRain
+          return (
+            <button
+              key={preset.id}
+              type="button"
+              role="radio"
+              aria-checked={active}
+              onClick={() => handleSoundChange(preset.id)}
+              className={cn(
+                'inline-flex min-h-9 items-center gap-2 rounded-full px-3.5 text-xs font-semibold ring-1 transition-all',
+                active
+                  ? 'bg-white text-night-950 ring-white shadow-sm'
+                  : 'bg-white/5 text-white/80 ring-white/15 hover:bg-white/10 hover:text-white',
+              )}
+            >
+              <IconComp className="size-3.5" />
+              <span>{preset.label}</span>
+            </button>
+          )
+        })}
+      </div>
+
+      <p className="mt-2.5 text-xs text-tide-200/90 italic">
+        {activePreset.desc}
+      </p>
+
+      {/* Kontrol Utama: Putar/Hentikan, Volume, dan Timer */}
+      <div className="mt-5 flex flex-wrap items-center gap-4 pt-4 border-t border-white/10">
+        <button
+          type="button"
+          onClick={handleToggle}
+          className={cn(
+            'inline-flex min-h-11 items-center gap-2.5 rounded-full px-5 text-sm font-semibold ring-1 transition-all',
+            playing
+              ? 'bg-tide-400 text-night-950 ring-tide-300 shadow-md hover:bg-tide-300'
+              : 'bg-white text-night-950 ring-white hover:bg-white/90',
+          )}
+        >
+          {playing ? (
+            <>
+              {/* Animasi equalizer mini */}
+              <span className="flex items-end gap-0.5 h-3.5 w-3.5" aria-hidden="true">
+                <span className="w-1 bg-night-950 rounded-full animate-bounce [animation-delay:-0.3s] h-full" />
+                <span className="w-1 bg-night-950 rounded-full animate-bounce [animation-delay:-0.15s] h-2/3" />
+                <span className="w-1 bg-night-950 rounded-full animate-bounce h-4/5" />
+              </span>
+              <Pause className="size-4" />
+              <span>Hentikan Suara</span>
+            </>
+          ) : (
+            <>
+              <Play className="size-4 fill-night-950" />
+              <span>Putar {activePreset.label}</span>
+            </>
+          )}
+        </button>
+
+        {/* Pengatur Volume */}
+        <div className="flex items-center gap-2 min-w-36">
+          <Volume2 className="size-4 text-white/60 shrink-0" aria-hidden="true" />
+          <label htmlFor="soundscape-volume" className="sr-only">Volume Suara</label>
+          <input
+            id="soundscape-volume"
+            type="range"
+            min="0.05"
+            max="0.8"
+            step="0.05"
+            value={volume}
+            onChange={handleVolumeChange}
+            className="w-24 sm:w-28 accent-tide-400 bg-white/20 h-1.5 rounded-lg cursor-pointer"
+            title={`Volume: ${Math.round((volume / 0.8) * 100)}%`}
+          />
+          <span className="text-xs tabular-nums text-white/60 w-8">
+            {Math.round((volume / 0.8) * 100)}%
+          </span>
+        </div>
+
+        {/* Pilihan Timer Mati Otomatis */}
+        <div className="flex items-center gap-1.5 text-xs text-white/70">
+          <Timer className="size-3.5 text-white/50" aria-hidden="true" />
+          <span className="hidden sm:inline text-white/60">Timer:</span>
+          <div className="flex items-center gap-1">
+            {[
+              { label: 'Terus', val: 0 },
+              { label: '5m', val: 5 },
+              { label: '15m', val: 15 },
+              { label: '30m', val: 30 },
+            ].map((t) => (
+              <button
+                key={t.val}
+                type="button"
+                onClick={() => handleTimerChange(t.val)}
+                className={cn(
+                  'rounded-md px-2 py-1 text-[11px] font-medium transition-colors',
+                  timerMinutes === t.val
+                    ? 'bg-white/20 text-white font-semibold ring-1 ring-white/30'
+                    : 'text-white/60 hover:text-white hover:bg-white/10',
+                )}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -202,7 +369,7 @@ export default function CalmRoom() {
             <div>
               <SectionHeading
                 id="judul-tenang"
-                number="17"
+                number="18"
                 kicker="Ruang Tenang"
                 title={
                   <>

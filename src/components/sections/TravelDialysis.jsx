@@ -23,7 +23,7 @@ export default function TravelDialysis() {
       <div className="shell">
         <SectionHeading
           id="judul-bepergian"
-          number="15"
+          number="16"
           kicker="Traveling Dialysis"
           title={
             <>
