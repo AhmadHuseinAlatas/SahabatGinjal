@@ -1,5 +1,5 @@
 import { ExternalLink, Phone } from 'lucide-react'
-import { FOOTER_LINKS } from '../../data/navigation'
+import { NAV_CATEGORIES } from '../../data/navigation'
 import { SOURCES } from '../../data/site'
 import { BrandBadge } from '../ui/Logo'
 
@@ -9,7 +9,8 @@ const YEAR = new Date().getFullYear()
 export default function Footer() {
   return (
     <footer className="relative mt-8 border-t border-line">
-      <div className="shell grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.15fr_0.8fr_1.35fr] lg:gap-16">
+      <div className="shell grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.1fr_repeat(2,0.8fr)_1.2fr] lg:gap-8">
+        {/* Brand Column */}
         <div>
           <div className="flex items-center gap-4">
             <BrandBadge className="size-16 shadow-card" />
@@ -30,49 +31,71 @@ export default function Footer() {
           </a>
         </div>
 
-        <nav aria-labelledby="footer-jelajahi">
-          <h2 id="footer-jelajahi" className="kicker text-ink-faint">
-            Jelajahi
-          </h2>
-          <ul className="mt-5 grid gap-2.5">
-            {FOOTER_LINKS.map((link) => (
-              <li key={link.id}>
-                <a href={`#${link.id}`} className="text-ink-soft transition-colors hover:text-primary">
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {/* Categorized Nav Columns — show first 2 categories */}
+        {NAV_CATEGORIES.slice(0, 2).map((cat) => (
+          <nav key={cat.key} aria-labelledby={`footer-${cat.key}`}>
+            <h2 id={`footer-${cat.key}`} className="kicker text-ink-faint">
+              <span className="mr-1.5" aria-hidden="true">{cat.emoji}</span>
+              {cat.label}
+            </h2>
+            <ul className="mt-5 grid gap-2.5">
+              {cat.links.map((link) => (
+                <li key={link.id}>
+                  <a href={`#${link.id}`} className="text-ink-soft transition-colors hover:text-primary">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))}
 
-        <div className="md:col-span-2 lg:col-span-1">
-          <h2 className="kicker text-ink-faint">Penting dibaca</h2>
-          <p className="mt-5 leading-relaxed text-ink-soft">
-            SahabatGinjal adalah halaman edukasi dan dukungan emosional. Isinya{' '}
-            <strong className="font-semibold text-ink">bukan nasihat medis</strong> dan tidak
-            menggantikan pemeriksaan, diagnosis, atau instruksi dokter serta tim dialisismu. Angka,
-            batas cairan, dan pantangan makanan selalu bersifat individual.
-          </p>
-          <p className="mt-5 text-sm text-ink-faint">Rujukan umum:</p>
-          <ul className="mt-2 flex flex-wrap gap-2">
-            {SOURCES.map((source) => (
-              <li key={source.href}>
-                <a
-                  href={source.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm text-ink-soft ring-1 ring-line transition-colors hover:text-primary hover:ring-line-strong"
-                >
-                  {source.label}
-                  <ExternalLink aria-hidden="true" className="size-3.5" />
-                  <span className="sr-only">(membuka tab baru)</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 text-sm text-ink-faint">
-            Isi halaman ini ditulis ulang dan diringkas agar mudah dipahami.
-          </p>
+        {/* Remaining categories + Penting dibaca */}
+        <div>
+          {/* Show remaining categories inline */}
+          {NAV_CATEGORIES.slice(2).map((cat) => (
+            <nav key={cat.key} aria-labelledby={`footer-${cat.key}`} className="mb-8 last:mb-0">
+              <h2 id={`footer-${cat.key}`} className="kicker text-ink-faint">
+                <span className="mr-1.5" aria-hidden="true">{cat.emoji}</span>
+                {cat.label}
+              </h2>
+              <ul className="mt-4 grid gap-2">
+                {cat.links.map((link) => (
+                  <li key={link.id}>
+                    <a href={`#${link.id}`} className="text-ink-soft transition-colors hover:text-primary">
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+
+          <div className="mt-8 rounded-2xl bg-surface-muted/60 p-5 ring-1 ring-line">
+            <h2 className="kicker text-ink-faint">Penting dibaca</h2>
+            <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+              SahabatGinjal adalah halaman edukasi dan dukungan emosional. Isinya{' '}
+              <strong className="font-semibold text-ink">bukan nasihat medis</strong> dan tidak
+              menggantikan pemeriksaan, diagnosis, atau instruksi dokter serta tim dialisismu.
+            </p>
+            <p className="mt-3 text-xs text-ink-faint">Rujukan umum:</p>
+            <ul className="mt-2 flex flex-wrap gap-2">
+              {SOURCES.map((source) => (
+                <li key={source.href}>
+                  <a
+                    href={source.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs text-ink-soft ring-1 ring-line transition-colors hover:text-primary hover:ring-line-strong"
+                  >
+                    {source.label}
+                    <ExternalLink aria-hidden="true" className="size-3" />
+                    <span className="sr-only">(membuka tab baru)</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 
