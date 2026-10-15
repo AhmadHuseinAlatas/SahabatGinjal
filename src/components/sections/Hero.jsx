@@ -23,15 +23,26 @@ function Words({ words, className }) {
   ))
 }
 
-export default function Hero() {
+export default function Hero({ onSelectMode }) {
   // Garis bawah digambar dengan animasi; kalau pengguna meminta gerak dikurangi,
   // ia langsung tampil utuh.
   const reduce = useReducedMotion()
 
   return (
-    <section id="beranda" aria-labelledby="judul-beranda" className="relative pt-32 sm:pt-36 lg:pt-40">
-      <div className="shell grid items-center gap-14 pb-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10 lg:pb-24">
-        <div>
+    <section id="beranda" aria-labelledby="judul-beranda" className="relative overflow-hidden pt-28 sm:pt-36 lg:pt-40">
+      <div className="shell grid items-center gap-8 sm:gap-12 pb-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10 lg:pb-24">
+        {/* Visual Orb Dialyzer: Tampil di paling atas pada ponsel (order-1), dan di sebelah kanan pada desktop (lg:order-2) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.3, ease: EASE }}
+          className="order-1 lg:order-2"
+        >
+          <FiltrationOrb />
+        </motion.div>
+
+        {/* Teks & Navigasi Utama: Tampil di bawah orb pada ponsel (order-2), dan di sebelah kiri pada desktop (lg:order-1) */}
+        <div className="order-2 lg:order-1">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -94,10 +105,20 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.7, ease: EASE }}
             className="mt-9 flex flex-wrap gap-3"
           >
-            <Button href="#skrining" size="lg" icon={ArrowRight}>
+            <Button
+              href="#skrining"
+              size="lg"
+              icon={ArrowRight}
+              onClick={() => onSelectMode?.('prevention')}
+            >
               Mencegah &amp; Cek Risiko
             </Button>
-            <Button href="#perasaan" size="lg" variant="secondary">
+            <Button
+              href="#perasaan"
+              size="lg"
+              variant="secondary"
+              onClick={() => onSelectMode?.('dialysis')}
+            >
               Sedang Menghadapi Dialisis
             </Button>
           </motion.div>
@@ -118,14 +139,6 @@ export default function Hero() {
             ))}
           </Stagger>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.3, ease: EASE }}
-        >
-          <FiltrationOrb />
-        </motion.div>
       </div>
 
       <Marquee />

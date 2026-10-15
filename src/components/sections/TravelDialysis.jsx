@@ -19,7 +19,7 @@ export default function TravelDialysis() {
   }
 
   return (
-    <section id="bepergian" aria-labelledby="judul-bepergian" className="py-24 sm:py-32">
+    <section id="bepergian" aria-labelledby="judul-bepergian" className="py-12 sm:py-20 lg:py-28">
       <div className="shell">
         <SectionHeading
           id="judul-bepergian"

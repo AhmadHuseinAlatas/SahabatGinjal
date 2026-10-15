@@ -8,7 +8,7 @@ import { Stagger, StaggerItem } from '../ui/Stagger'
 
 export default function KidneyProtection() {
   return (
-    <section id="pencegahan" aria-labelledby="judul-pencegahan" className="py-24 sm:py-32">
+    <section id="pencegahan" aria-labelledby="judul-pencegahan" className="py-12 sm:py-20 lg:py-28">
       <div className="shell">
         <SectionHeading
           id="judul-pencegahan"

@@ -96,7 +96,7 @@ export default function CallToAction() {
   }
 
   return (
-    <section id="langkah" aria-labelledby="judul-langkah" className="py-24 sm:py-32">
+    <section id="langkah" aria-labelledby="judul-langkah" className="py-12 sm:py-20 lg:py-28">
       <div className="shell">
         <Reveal>
           <div className="card relative overflow-hidden p-8 sm:p-12 lg:p-16">

@@ -74,7 +74,8 @@
   --animate-dash: dash 1.4s linear infinite;
   --animate-twinkle: twinkle 5s ease-in-out infinite;
   --animate-pulse-ring: pulse-ring 3.6s var(--ease-soft) infinite;
-  --animate-float: float 7s ease-in-out infinite;
+  --animate-dialyzer-pulse: dialyzer-pulse 3.6s ease-in-out infinite;
+  --animate-dialyzer-glow: dialyzer-glow 3.6s ease-in-out infinite;
 
   @keyframes marquee {
     to {
@@ -126,6 +127,24 @@
     }
     50% {
       transform: translate3d(0, -10px, 0);
+    }
+  }
+  @keyframes dialyzer-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.025);
+    }
+  }
+  @keyframes dialyzer-glow {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 0.95;
     }
   }
 }
@@ -207,12 +226,47 @@
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+    overflow-x: clip;
+    width: 100%;
+    max-width: 100%;
+    overscroll-behavior-x: none;
+    touch-action: pan-y pinch-zoom;
   }
 
   body {
     @apply bg-canvas font-sans text-ink antialiased;
     text-rendering: optimizeLegibility;
-    transition: background-color 0.5s var(--ease-soft);
+    transition: background-color 0.4s var(--ease-soft), color 0.4s var(--ease-soft);
+    overflow-x: hidden;
+    overflow-x: clip;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+    overscroll-behavior-x: none;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  #root {
+    overflow-x: hidden;
+    overflow-x: clip;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  main {
+    overflow-x: hidden;
+    overflow-x: clip;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+  }
+
+  section {
+    overflow-x: clip;
+    max-width: 100%;
   }
 
   ::selection {
@@ -271,12 +325,14 @@
   border: 1px solid var(--line);
   background-color: color-mix(in oklab, var(--surface) 84%, transparent);
   box-shadow: var(--elev-card);
+  transition: background-color 0.4s var(--ease-soft), border-color 0.4s var(--ease-soft), box-shadow 0.4s var(--ease-soft);
 }
 
 @utility glass {
   background-color: color-mix(in oklab, var(--surface) 70%, transparent);
   -webkit-backdrop-filter: blur(16px) saturate(160%);
   backdrop-filter: blur(16px) saturate(160%);
+  transition: background-color 0.4s var(--ease-soft), border-color 0.4s var(--ease-soft);
 }
 
 @utility kicker {
@@ -340,9 +396,8 @@
     var(--color-night-950);
 }
 
-/* Ganti tema: animasi lingkaran diatur dari useTheme (View Transitions API). */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
+/* Efek gelombang pergantian tema (Pagi / Malam) */
+.sg-theme-wave {
+  pointer-events: none;
+  contain: strict;
 }

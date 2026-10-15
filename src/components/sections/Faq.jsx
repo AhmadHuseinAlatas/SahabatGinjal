@@ -11,7 +11,7 @@ export default function Faq() {
   const [openId, setOpenId] = useState(FAQ[0].id)
 
   return (
-    <section id="tanya" aria-labelledby="judul-tanya" className="py-24 sm:py-32">
+    <section id="tanya" aria-labelledby="judul-tanya" className="py-12 sm:py-20 lg:py-28">
       <div className="shell grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeading

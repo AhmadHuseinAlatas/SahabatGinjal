@@ -124,7 +124,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-line">
-        <div className="shell flex flex-col gap-2 py-6 text-xs text-ink-faint sm:flex-row sm:items-center sm:justify-between">
+        <div className="shell flex flex-col gap-2 pt-6 pb-[max(6.5rem,calc(5.5rem+env(safe-area-inset-bottom,0px)))] text-xs text-ink-faint pr-14 sm:pr-0 sm:flex-row sm:items-center sm:justify-between lg:py-6">
           <p>© {YEAR} SahabatGinjal. Dibuat dengan penuh kepedulian untuk para pejuang ginjal di Indonesia.</p>
           <p>Satu napas, satu langkah pada satu waktu.</p>
         </div>

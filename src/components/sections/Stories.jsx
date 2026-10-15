@@ -8,7 +8,7 @@ import { Stagger, StaggerItem } from '../ui/Stagger'
 
 export default function Stories() {
   return (
-    <section id="cerita" aria-labelledby="judul-cerita" className="py-24 sm:py-32">
+    <section id="cerita" aria-labelledby="judul-cerita" className="py-12 sm:py-20 lg:py-28">
       <div className="shell">
         <SectionHeading
           id="judul-cerita"

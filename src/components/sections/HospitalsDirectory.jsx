@@ -28,10 +28,13 @@ import Button from '../ui/Button'
 import Reveal from '../ui/Reveal'
 import SectionHeading from '../ui/SectionHeading'
 
+const INITIAL_VISIBLE_COUNT = 6
+
 export default function HospitalsDirectory() {
   const [selectedCity, setSelectedCity] = useState('Semua Kota')
   const [paymentFilter, setPaymentFilter] = useState('all') // 'all' | 'bpjs' | 'swasta'
   const [searchQuery, setSearchQuery] = useState('')
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT)
   const [userLocation, setUserLocation] = useState(null)
   const [locating, setLocating] = useState(false)
   const [locationError, setLocationError] = useState(null)
@@ -123,8 +126,10 @@ export default function HospitalsDirectory() {
       })
   }, [userLocation, paymentFilter, selectedCity, searchQuery])
 
+  const displayedHospitals = filteredHospitals.slice(0, visibleCount)
+
   return (
-    <section id="rumah-sakit" aria-labelledby="judul-rumah-sakit" className="scroll-mt-24 sm:scroll-mt-28 py-20 sm:py-28">
+    <section id="rumah-sakit" aria-labelledby="judul-rumah-sakit" className="scroll-mt-24 sm:scroll-mt-28 py-12 sm:py-20 lg:py-28">
       <div className="shell">
         {/* Header Bagian */}
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
@@ -141,7 +146,7 @@ export default function HospitalsDirectory() {
           />
 
           {/* Toggle Ukuran Huruf Ramah Lansia */}
-          <div className="inline-flex shrink-0 items-center gap-2 self-start rounded-2xl bg-sand-100 p-1.5 ring-1 ring-sand-300 dark:bg-night-900 dark:ring-white/10 lg:self-end">
+          <div className="inline-flex max-w-full flex-wrap items-center gap-1.5 sm:gap-2 self-start rounded-2xl bg-sand-100 p-1.5 ring-1 ring-sand-300 dark:bg-night-900 dark:ring-white/10 lg:self-end">
             <span className="px-2.5 text-xs font-semibold text-ink-muted">
               Ukuran Huruf:
             </span>
@@ -267,7 +272,10 @@ export default function HospitalsDirectory() {
                 <button
                   key={p.id}
                   type="button"
-                  onClick={() => setPaymentFilter(p.id)}
+                  onClick={() => {
+                    setPaymentFilter(p.id)
+                    setVisibleCount(INITIAL_VISIBLE_COUNT)
+                  }}
                   className={cn(
                     'min-h-11 rounded-full px-5 text-sm font-bold transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]',
                     active
@@ -292,7 +300,10 @@ export default function HospitalsDirectory() {
                 <button
                   key={city}
                   type="button"
-                  onClick={() => setSelectedCity(city)}
+                  onClick={() => {
+                    setSelectedCity(city)
+                    setVisibleCount(INITIAL_VISIBLE_COUNT)
+                  }}
                   className={cn(
                     'min-h-10 rounded-full px-4 text-xs font-semibold ring-1 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 sm:text-sm',
                     active
@@ -312,7 +323,10 @@ export default function HospitalsDirectory() {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value)
+                setVisibleCount(INITIAL_VISIBLE_COUNT)
+              }}
               placeholder="Cari nama rumah sakit, kecamatan, atau kota..."
               className={cn(
                 'w-full rounded-2xl bg-sand-50 py-3.5 pl-12 pr-10 text-ink placeholder:text-ink-muted ring-1 ring-sand-300 focus:outline-none focus:ring-2 focus:ring-leaf-500 dark:bg-night-900 dark:ring-white/15',
@@ -322,7 +336,10 @@ export default function HospitalsDirectory() {
             {searchQuery && (
               <button
                 type="button"
-                onClick={() => setSearchQuery('')}
+                onClick={() => {
+                  setSearchQuery('')
+                  setVisibleCount(INITIAL_VISIBLE_COUNT)
+                }}
                 className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1.5 text-ink-muted hover:text-ink"
                 title="Hapus pencarian"
               >
@@ -386,7 +403,7 @@ export default function HospitalsDirectory() {
 
         {/* Daftar Kartu Rumah Sakit dengan Warna Khusus & Kontras Tinggi */}
         <div className="mt-8 grid gap-7 md:grid-cols-2">
-          {filteredHospitals.map((hospital) => {
+          {displayedHospitals.map((hospital) => {
             const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
               `${hospital.name} ${hospital.address}`,
             )}`
@@ -578,6 +595,37 @@ export default function HospitalsDirectory() {
             )
           })}
         </div>
+
+        {/* Tombol Tampilkan Lebih Banyak Rumah Sakit */}
+        {filteredHospitals.length > visibleCount && (
+          <div className="mt-8 flex flex-col items-center justify-center gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setVisibleCount((prev) => prev + 6)}
+              className="min-h-12 px-6 text-sm font-bold shadow-xs hover:shadow-md"
+            >
+              Tampilkan Lebih Banyak Rumah Sakit (+{Math.min(6, filteredHospitals.length - visibleCount)} lagi)
+            </Button>
+            <p className="text-xs text-ink-faint">
+              Menampilkan {displayedHospitals.length} dari total {filteredHospitals.length} fasilitas
+            </p>
+          </div>
+        )}
+
+        {visibleCount > INITIAL_VISIBLE_COUNT && (
+          <div className="mt-3 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                setVisibleCount(INITIAL_VISIBLE_COUNT)
+                document.getElementById('rumah-sakit')?.scrollIntoView({ behavior: 'smooth' })
+              }}
+              className="text-xs font-semibold text-ink-muted underline underline-offset-4 hover:text-ink"
+            >
+              Ciutkan Kembali ke {INITIAL_VISIBLE_COUNT} Rumah Sakit
+            </button>
+          </div>
+        )}
 
         {/* Jika Hasil Pencarian Kosong */}
         {filteredHospitals.length === 0 && (

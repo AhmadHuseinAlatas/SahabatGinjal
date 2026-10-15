@@ -1,9 +1,7 @@
 import {
   ChevronDown,
   HeartHandshake,
-  Hospital,
   Menu,
-  Wind,
   X,
 } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
@@ -83,8 +81,10 @@ export default function Navbar() {
         <div className="shell max-w-7xl">
           <div
             className={cn(
-              'flex h-16 items-center justify-between gap-2 sm:gap-4 rounded-full px-3 sm:px-4 ring-1 transition-[background-color,box-shadow,border-color] duration-500 ease-soft',
-              solid ? 'glass shadow-float ring-line' : 'ring-transparent',
+              'flex h-16 items-center justify-between gap-2 sm:gap-4 rounded-full px-3 sm:px-4 ring-1 transition-all duration-300 ease-soft',
+              solid || openDropdown
+                ? 'bg-surface/96 backdrop-blur-xl ring-line-strong shadow-lg shadow-ink/5 dark:shadow-black/40'
+                : 'bg-surface/90 backdrop-blur-md ring-line/80 shadow-card',
             )}
           >
             {/* Logo */}
@@ -150,13 +150,13 @@ export default function Navbar() {
                             onMouseEnter={() => handleMouseEnter(group.key)}
                             onMouseLeave={handleMouseLeave}
                           >
-                            <div className="glass rounded-2xl p-2.5 shadow-float ring-1 ring-line">
+                            <div className="rounded-2xl border border-line-strong bg-surface p-2.5 shadow-2xl shadow-ink/15 dark:shadow-black/60">
                               {/* Header deskripsi kategori */}
-                              <div className="px-3 py-2 border-b border-line/60 mb-1">
-                                <p className="text-xs font-semibold text-primary uppercase tracking-wider">
+                              <div className="mb-1.5 rounded-xl bg-surface-muted/70 px-3.5 py-2.5 border-b border-line">
+                                <p className="text-xs font-bold text-primary uppercase tracking-wider">
                                   {group.fullLabel}
                                 </p>
-                                <p className="text-xs text-ink-faint mt-0.5">
+                                <p className="text-xs text-ink-soft mt-0.5">
                                   {group.desc}
                                 </p>
                               </div>
@@ -176,7 +176,7 @@ export default function Navbar() {
                                         'group flex items-start gap-3 rounded-xl p-2.5 transition-colors duration-150',
                                         isLinkActive
                                           ? 'bg-primary/15 text-primary'
-                                          : 'hover:bg-surface-muted text-ink',
+                                          : 'text-ink hover:bg-surface-muted',
                                       )}
                                     >
                                       <span
@@ -184,16 +184,16 @@ export default function Navbar() {
                                           'mt-0.5 grid size-8 shrink-0 place-items-center rounded-lg transition-colors',
                                           isLinkActive
                                             ? 'bg-primary text-white shadow-sm'
-                                            : 'bg-surface-muted text-ink-soft group-hover:bg-primary/10 group-hover:text-primary',
+                                            : 'bg-surface-muted text-ink-soft group-hover:bg-primary/15 group-hover:text-primary',
                                         )}
                                       >
                                         <Icon aria-hidden="true" className="size-4" />
                                       </span>
                                       <div className="min-w-0 flex-1">
-                                        <p className="text-sm font-semibold leading-tight group-hover:text-primary transition-colors">
+                                        <p className="text-sm font-semibold leading-tight text-ink group-hover:text-primary transition-colors">
                                           {item.label}
                                         </p>
-                                        <p className="text-xs text-ink-faint leading-snug mt-0.5">
+                                        <p className="text-xs text-ink-soft leading-snug mt-0.5">
                                           {item.desc}
                                         </p>
                                       </div>

@@ -43,7 +43,7 @@ function MythCard({ item }) {
 
 export default function Myths() {
   return (
-    <section id="mitos" aria-labelledby="judul-mitos" className="py-24 sm:py-32">
+    <section id="mitos" aria-labelledby="judul-mitos" className="py-12 sm:py-20 lg:py-28">
       <div className="shell">
         <SectionHeading
           id="judul-mitos"

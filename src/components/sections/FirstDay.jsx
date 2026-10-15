@@ -108,7 +108,7 @@ function BagChecklist() {
 
 export default function FirstDay() {
   return (
-    <section id="hari-pertama" aria-labelledby="judul-hari-pertama" className="py-24 sm:py-32">
+    <section id="hari-pertama" aria-labelledby="judul-hari-pertama" className="py-12 sm:py-20 lg:py-28">
       <div className="shell">
         <SectionHeading
           id="judul-hari-pertama"

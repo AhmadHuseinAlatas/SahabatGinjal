@@ -1,0 +1,24 @@
+{
+  "name": "SahabatGinjal",
+  "short_name": "SahabatGinjal",
+  "description": "Edukasi pencegahan risiko ginjal dan ruang tenang pendamping dialisis.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#112a25",
+  "theme_color": "#112a25",
+  "icons": [
+    {
+      "src": "./favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

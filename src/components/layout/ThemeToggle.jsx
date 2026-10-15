@@ -14,7 +14,7 @@ export default function ThemeToggle({ theme, onToggle, className }) {
       aria-label={dark ? 'Ganti ke mode terang' : 'Ganti ke mode malam'}
       title={dark ? 'Mode terang' : 'Mode malam, untuk kamu yang masih terjaga'}
       className={cn(
-        'relative grid size-11 place-items-center rounded-full text-ink ring-1 ring-line-strong transition-colors hover:bg-surface-muted',
+        'relative grid size-11 place-items-center rounded-full text-ink ring-1 ring-line-strong transition-all duration-200 hover:bg-surface-muted hover:ring-primary/40 active:scale-90',
         className,
       )}
     >

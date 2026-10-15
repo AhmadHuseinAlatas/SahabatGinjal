@@ -9,7 +9,7 @@ function scrollToTop() {
   document.getElementById('konten')?.focus({ preventScroll: true })
 }
 
-/** Pintasan "Butuh napas?" dan tombol kembali ke atas, muncul setelah hero terlewati. */
+/** Tombol kembali ke atas, muncul setelah hero terlewati. */
 export default function FloatingActions() {
   const visible = useScrolledPast(720)
 
@@ -22,20 +22,9 @@ export default function FloatingActions() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.4, ease: EASE }}
-          className="pointer-events-none fixed inset-x-0 bottom-4 z-40 sm:bottom-6"
+          className="pointer-events-none fixed inset-x-0 bottom-[max(5rem,calc(4.25rem+env(safe-area-inset-bottom,0px)))] z-40 lg:bottom-6"
         >
-          <div className="shell flex items-end justify-between">
-            <a
-              href="#tenang"
-              className="glass pointer-events-auto inline-flex min-h-12 items-center gap-2.5 rounded-full px-4 text-sm font-semibold text-ink shadow-float ring-1 ring-line transition-transform hover:-translate-y-0.5"
-            >
-              <span aria-hidden="true" className="relative flex size-2.5">
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-tide-400 opacity-70" />
-                <span className="relative inline-flex size-2.5 rounded-full bg-tide-500" />
-              </span>
-              Butuh napas?
-            </a>
-
+          <div className="shell flex justify-end">
             <button
               type="button"
               onClick={scrollToTop}

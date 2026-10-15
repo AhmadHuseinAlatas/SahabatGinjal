@@ -1,4 +1,14 @@
-import { AlertTriangle, CupSoda, Droplets, Info, Plus, RotateCcw, Sparkles } from 'lucide-react'
+import {
+  AlertTriangle,
+  Check,
+  Copy,
+  CupSoda,
+  Droplets,
+  Info,
+  Plus,
+  RotateCcw,
+  Sparkles,
+} from 'lucide-react'
 import { motion } from 'motion/react'
 import { useState } from 'react'
 import useLocalStorage from '../../hooks/useLocalStorage'
@@ -84,6 +94,50 @@ export default function FluidTracker() {
     })
   }
 
+  const [copied, setCopied] = useState(false)
+
+  const handleCopySummary = async () => {
+    const dateFormatted = new Date().toLocaleDateString('id-ID', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+
+    const logText = (trackerData?.logs || [])
+      .map((l) => `  • ${l.time}: ${l.label} (${l.ml} ml)`)
+      .join('\n')
+
+    const summaryText = [
+      `📋 *Catatan Asupan Cairan - SahabatGinjal*`,
+      `📅 Tanggal: ${dateFormatted}`,
+      `🎯 Batas Target: ${target} ml`,
+      `💧 Total Diminum: ${consumed} ml (${percentage}%)`,
+      `⚖️ Status: ${isOver ? `Melebihi batas target sebanyak ${consumed - target} ml` : `Tersisa ${remaining} ml`}`,
+      logText ? `\n📝 Rincian Konsumsi:\n${logText}` : '',
+      `\n*Dicatat mandiri melalui SahabatGinjal*`,
+    ]
+      .filter(Boolean)
+      .join('\n')
+
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(summaryText)
+      } else {
+        const textarea = document.createElement('textarea')
+        textarea.value = summaryText
+        document.body.appendChild(textarea)
+        textarea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textarea)
+      }
+      setCopied(true)
+      setTimeout(() => setCopied(false), 3000)
+    } catch {
+      // fallback
+    }
+  }
+
   const setTargetLimit = (newLimit) => {
     setTrackerData((prev) => ({
       ...prev,
@@ -92,7 +146,7 @@ export default function FluidTracker() {
   }
 
   return (
-    <section id="cairan" aria-labelledby="judul-cairan" className="py-24 sm:py-32">
+    <section id="cairan" aria-labelledby="judul-cairan" className="py-12 sm:py-20 lg:py-28">
       <div className="shell">
         <SectionHeading
           id="judul-cairan"
@@ -222,9 +276,29 @@ export default function FluidTracker() {
                 </button>
               </div>
 
-              <p className="mt-5 text-xs text-ink-faint">
-                Catatan cairan tersimpan di perangkatmu untuk hari ini. Tidak dikirim ke server.
-              </p>
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-line/60 pt-4">
+                <button
+                  type="button"
+                  onClick={handleCopySummary}
+                  className="inline-flex items-center gap-2 rounded-xl bg-surface-muted/80 px-3.5 py-2 text-xs font-semibold text-ink ring-1 ring-line transition-all hover:bg-surface hover:ring-line-strong active:scale-95"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="size-4 text-primary" />
+                      <span className="font-bold text-primary">Rekap Tersalin! Siap dikirim ke WA</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="size-4 text-accent" />
+                      <span>Salin Rekap untuk Dokter / WA</span>
+                    </>
+                  )}
+                </button>
+
+                <p className="text-xs text-ink-faint">
+                  Tersimpan di perangkatmu hari ini.
+                </p>
+              </div>
             </div>
           </Reveal>
 

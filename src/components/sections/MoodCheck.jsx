@@ -1,6 +1,6 @@
 import { ArrowRight, Check, Phone } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { MOODS } from '../../data/moods'
 import { cn } from '../../lib/cn'
 import { EASE } from '../../lib/motion'
@@ -89,10 +89,32 @@ function MoodPanel({ mood }) {
 
 export default function MoodCheck() {
   const [selectedId, setSelectedId] = useState(null)
+  const panelRef = useRef(null)
   const selected = MOODS.find((mood) => mood.id === selectedId) ?? null
 
+  const handleSelectMood = (id) => {
+    setSelectedId(id)
+
+    // Arahkan pandangan layar secara otomatis ke kotak penjelasan
+    setTimeout(() => {
+      if (panelRef.current) {
+        const isMobileOrStacked = window.innerWidth < 1024
+        const rect = panelRef.current.getBoundingClientRect()
+        const navOffset = 84 // Clearance untuk fixed navbar
+
+        if (isMobileOrStacked || rect.top < navOffset || rect.bottom > window.innerHeight) {
+          const targetY = window.scrollY + rect.top - navOffset
+          window.scrollTo({
+            top: targetY,
+            behavior: 'smooth',
+          })
+        }
+      }
+    }, 60)
+  }
+
   return (
-    <section id="perasaan" aria-labelledby="judul-perasaan" className="py-24 sm:py-32">
+    <section id="perasaan" aria-labelledby="judul-perasaan" className="py-12 sm:py-20 lg:py-28">
       <div className="shell">
         <SectionHeading
           id="judul-perasaan"
@@ -116,7 +138,7 @@ export default function MoodCheck() {
                     key={mood.id}
                     type="button"
                     aria-pressed={active}
-                    onClick={() => setSelectedId(mood.id)}
+                    onClick={() => handleSelectMood(mood.id)}
                     className={cn(
                       'relative flex min-h-16 items-center gap-4 rounded-2xl px-3 py-2.5 text-left transition-colors',
                       active ? 'text-ink' : 'text-ink-soft hover:bg-surface/60 hover:text-ink',
@@ -142,7 +164,12 @@ export default function MoodCheck() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="card relative h-full overflow-hidden">
+            <div
+              ref={panelRef}
+              id="penjelasan-perasaan"
+              tabIndex={-1}
+              className="card relative h-full overflow-hidden scroll-mt-24 focus:outline-none"
+            >
               {selected && (
                 <div
                   aria-hidden="true"

@@ -7,7 +7,7 @@ import { Stagger, StaggerItem } from '../ui/Stagger'
 
 export default function CrisisHelp() {
   return (
-    <section id="bantuan" aria-labelledby="judul-bantuan" className="py-16 sm:py-24">
+    <section id="bantuan" aria-labelledby="judul-bantuan" className="py-10 sm:py-16">
       <div className="shell">
         <Reveal>
           <div className="relative overflow-hidden rounded-[2.5rem] bg-coral-50 p-8 ring-1 ring-coral-200 sm:p-12 dark:bg-coral-400/10 dark:ring-coral-400/25">

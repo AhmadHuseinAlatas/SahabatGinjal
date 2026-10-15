@@ -18,6 +18,78 @@ function applyTheme(theme) {
 }
 
 /**
+ * Gelombang fajar/senja visual yang bergerak dari tombol ke seluruh layar.
+ * Ringan, GPU-accelerated, dan 100% bebas lag karena hanya me-render 1 viewport layer
+ * tanpa perlu screenshot 15.000px DOM via View Transitions API.
+ */
+function createThemeWave(origin, nextTheme) {
+  if (typeof window === 'undefined') return
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+  const rect = origin?.getBoundingClientRect?.()
+  const x = rect ? Math.round(rect.left + rect.width / 2) : Math.round(window.innerWidth - 44)
+  const y = rect ? Math.round(rect.top + rect.height / 2) : 44
+
+  const maxDistX = Math.max(x, window.innerWidth - x)
+  const maxDistY = Math.max(y, window.innerHeight - y)
+  const radius = Math.ceil(Math.hypot(maxDistX, maxDistY) * 1.08)
+
+  // Bersihkan gelombang sebelumnya jika diklik cepat
+  document.querySelectorAll('.sg-theme-wave').forEach((el) => el.remove())
+
+  const wave = document.createElement('div')
+  wave.className = 'sg-theme-wave'
+
+  const isLight = nextTheme === 'light'
+  // Palet alami SahabatGinjal:
+  // Pagi (Light): Cahaya mentari fajar segar + hijau daun (leaf) + biru air (tide)
+  // Malam (Dark): Kedalaman malam tenang (night) + zamrud hening + biru samudra
+  const bg = isLight
+    ? `radial-gradient(circle at ${x}px ${y}px, rgba(255, 255, 255, 0.92) 0%, rgba(217, 242, 224, 0.75) 45%, rgba(146, 207, 232, 0.45) 80%, rgba(247, 248, 243, 0.15) 100%)`
+    : `radial-gradient(circle at ${x}px ${y}px, rgba(22, 52, 46, 0.95) 0%, rgba(11, 31, 27, 0.88) 50%, rgba(7, 21, 18, 0.75) 85%, rgba(13, 34, 46, 0.25) 100%)`
+
+  Object.assign(wave.style, {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '100%',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    pointerEvents: 'none',
+    zIndex: '99999',
+    background: bg,
+    clipPath: `circle(0px at ${x}px ${y}px)`,
+    willChange: 'clip-path, opacity',
+    transform: 'translateZ(0)',
+  })
+
+  document.body.appendChild(wave)
+
+  const animation = wave.animate(
+    [
+      { clipPath: `circle(0px at ${x}px ${y}px)`, opacity: 0.85 },
+      { clipPath: `circle(${Math.round(radius * 0.65)}px at ${x}px ${y}px)`, opacity: 0.7, offset: 0.5 },
+      { clipPath: `circle(${radius}px at ${x}px ${y}px)`, opacity: 0 },
+    ],
+    {
+      duration: 500,
+      easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      fill: 'forwards',
+    },
+  )
+
+  animation.onfinish = () => {
+    wave.remove()
+  }
+
+  // Pengaman bila animasi terinterupsi
+  setTimeout(() => {
+    if (wave.parentNode) wave.remove()
+  }, 800)
+}
+
+/**
  * Mode "pagi" (terang) dan "malam" (gelap).
  * Tema awal sudah dipasang skrip kecil di index.html sebelum React berjalan.
  */
@@ -50,35 +122,12 @@ export default function useTheme() {
         /* penyimpanan tidak tersedia, tema tetap berganti */
       }
 
-      const run = () => {
-        applyTheme(next)
-        setTheme(next)
-      }
+      // 1. Terapkan tema seketika tanpa delay dan tanpa freeze
+      applyTheme(next)
+      setTheme(next)
 
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      if (!document.startViewTransition || reduceMotion) {
-        run()
-        return
-      }
-
-      const rect = origin?.getBoundingClientRect?.()
-      const x = rect ? rect.left + rect.width / 2 : window.innerWidth - 40
-      const y = rect ? rect.top + rect.height / 2 : 40
-      const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))
-
-      const transition = document.startViewTransition(run)
-      transition.ready
-        .then(() => {
-          document.documentElement.animate(
-            { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-            {
-              duration: 700,
-              easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-              pseudoElement: '::view-transition-new(root)',
-            },
-          )
-        })
-        .catch(() => {})
+      // 2. Jalankan efek gelombang fajar/senja yang lembut dari tombol
+      createThemeWave(origin, next)
     },
     [theme],
   )

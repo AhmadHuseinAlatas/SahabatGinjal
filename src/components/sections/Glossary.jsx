@@ -7,9 +7,14 @@ import Accent from '../ui/Accent'
 import Reveal from '../ui/Reveal'
 import SectionHeading from '../ui/SectionHeading'
 
+import Button from '../ui/Button'
+
+const INITIAL_LIMIT = 4
+
 export default function Glossary() {
   const [query, setQuery] = useState('')
   const [expandedId, setExpandedId] = useState(null)
+  const [limit, setLimit] = useState(INITIAL_LIMIT)
 
   const filtered = GLOSSARY_TERMS.filter((item) => {
     const q = query.toLowerCase()
@@ -25,8 +30,10 @@ export default function Glossary() {
     setExpandedId((prev) => (prev === id ? null : id))
   }
 
+  const displayedTerms = query ? filtered : filtered.slice(0, limit)
+
   return (
-    <section id="istilah" aria-labelledby="judul-istilah" className="py-24 sm:py-32">
+    <section id="istilah" aria-labelledby="judul-istilah" className="py-12 sm:py-20 lg:py-28">
       <div className="shell">
         <SectionHeading
           id="judul-istilah"
@@ -56,7 +63,7 @@ export default function Glossary() {
 
         {/* List of Terms */}
         <div className="mt-8 grid gap-4 md:grid-cols-2">
-          {filtered.map((item) => {
+          {displayedTerms.map((item) => {
             const isExpanded = expandedId === item.id
             return (
               <motion.article
@@ -109,6 +116,34 @@ export default function Glossary() {
             )
           })}
         </div>
+
+        {/* Tombol Tampilkan Istilah Lebih Banyak di Ponsel */}
+        {!query && filtered.length > limit && (
+          <div className="mt-8 flex justify-center">
+            <Button
+              variant="outline"
+              onClick={() => setLimit(filtered.length)}
+              className="text-xs font-bold"
+            >
+              Lihat Semua {filtered.length} Istilah
+            </Button>
+          </div>
+        )}
+
+        {!query && limit > INITIAL_LIMIT && (
+          <div className="mt-3 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                setLimit(INITIAL_LIMIT)
+                document.getElementById('istilah')?.scrollIntoView({ behavior: 'smooth' })
+              }}
+              className="text-xs font-semibold text-ink-muted underline underline-offset-4 hover:text-ink"
+            >
+              Ciutkan Kembali ke {INITIAL_LIMIT} Istilah
+            </button>
+          </div>
+        )}
 
         {filtered.length === 0 && (
           <div className="mt-8 rounded-2xl border border-dashed border-line p-10 text-center text-ink-faint">

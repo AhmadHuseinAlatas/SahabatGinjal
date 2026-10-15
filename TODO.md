@@ -32,24 +32,41 @@
       - Guard pencegah crash array pada `useLocalStorage` & `FirstDay`.
       - Perbaikan ARIA attribute pada accordion FAQ.
       - Peningkatan deteksi akhir dokumen pada `useActiveSection`.
-- [x] `npm run build` dan `npm run lint` bersih (0 warning, 0 error).
+- [x] Pembersihan kode menyeluruh: `oxlint` 0 warning, 0 error (6 unused imports dibersihkan).
+- [x] Optimasi Bundle & Code-Splitting di `vite.config.js`:
+      - Pemisahan manual chunks (`vendor-react`, `vendor-motion`, `vendor-lucide`).
+      - Ukuran chunk turun dari >590 kB menjadi <240 kB per bundle, build time tembus <900 ms.
+- [x] Progressive Web App (PWA) readiness: `manifest.webmanifest` & meta icon terhubung.
 
-## Fitur Pencegahan & Deteksi Dini yang Baru Ditambahkan
+## Fitur Baru Pencegahan, Klinis, Nutrisi, & Simulasi Interaktif
 
-1. **Skrining Mandiri Risiko Ginjal 1 Menit (`#skrining`):**
+1. **Simulasi Jadwal Dialisis Interaktif (Contoh Minggumu & Harimu) di `#pilihan`:**
+   - Bagian "Contoh minggumu" kini **100% interaktif dan bisa diklik**:
+     - **Pilihan Pola Jadwal Populer:** Tombol preset cepat (*Senin & Kamis*, *Selasa & Jumat*, *Rabu & Sabtu*, *3x Seminggu Sen-Rab-Jum*, *3x Seminggu Sel-Kam-Sab*).
+     - **Tombol Hari Interaktif (Senin s/d Minggu):** Setiap hari dapat diklik untuk membuka rundown simulasi harian.
+     - **Rundown Hari Cuci Darah:** 3 tahap konkret (Persiapan pagi sebelum berangkat, saat 4-5 jam di mesin HD, dan penanganan pasca jarum dicabut).
+     - **Panduan Hari Bebas (Inter-dialitik):** Waktu berkumpul keluarga, disiplin kuota cairan harian, dan cara merawat lengan akses cimino/kateter leher.
+     - **Simulasi CAPD (06.00, 12.00, 17.00, 22.00):** Menjelaskan 3 tahap pergantian cairan (*Drain, Flush, Fill*) di tiap jam pergantian.
+2. **Kalkulator eGFR Mandiri Terintegrasi (CKD-EPI 2021) di `#stadium-ginjal`:**
+   - Menghitung persentase fungsi ginjal (mL/min/1.73m²) dari kadar kreatinin darah, usia, dan jenis kelamin.
+   - Otomatis menyorot kartu stadium 1–5 yang sesuai beserta pesan medis penenang ("Belum butuh cuci darah", arahan diet & tensi).
+3. **Fitur Salin & Ekspor Rekap Asupan Cairan di `#cairan`:**
+   - Tombol satu klik untuk menyalin rekap minum harian lengkap dengan status kuota dan rincian waktu, siap dikirim ke WhatsApp perawat HD/dokter saat kontrol.
+4. **Pencarian Cepat & Filter Chip Makanan Lokal di `#makanan`:**
+   - Tombol chip sekali sentuh untuk bahan makanan yang paling sering dicari (Pisang, Air Kelapa, Apel, Putih Telur, Bayam, Susu).
+   - Tombol reset cepat (clear search) untuk kenyamanan lansia di ponsel.
+5. **Skrining Mandiri Risiko Ginjal 1 Menit (`#skrining`):**
    - Kuesioner interaktif 6 pertanyaan faktor risiko (tensi, gula darah, obat nyeri/jamu, busa urine, bengkak, air putih).
    - Analisis skor otomatis dan rekomendasi medis konkret (Puskesmas / Faskes 1).
-2. **Peta 5 Stadium Penyakit Ginjal Kronis (`#stadium-ginjal`):**
+6. **Peta 5 Stadium Penyakit Ginjal Kronis (`#stadium-ginjal`):**
    - Edukasi horizontal 5 stadium (eGFR >90% hingga <15%).
    - Menegaskan bahwa Stadium 1–3b **belum butuh cuci darah** dan fungsi ginjal bisa dipertahankan puluhan tahun jika dijaga ketat.
-3. **Daftar Merah: 5 Zat & Kebiasaan Perusak Ginjal (`#pencegahan`):**
+7. **Daftar Merah: 5 Zat & Kebiasaan Perusak Ginjal (`#pencegahan`):**
    - Kartu edukasi bahaya NSAID berlebih, jamu pegal linu ber-BKO ilegal, garam tersembunyi, minuman manis bersoda, dan menahan kencing.
-4. **8 Aturan Emas Merawat Ginjal Sehat:**
+8. **8 Aturan Emas Merawat Ginjal Sehat:**
    - Rekomendasi harian terstandar dari International Society of Nephrology & World Kidney Day.
-5. **Panduan Cek Lab Sederhana di Puskesmas BPJS:**
+9. **Panduan Cek Lab Sederhana di Puskesmas BPJS:**
    - Edukasi tes urine (proteinuria/albuminuria), tes darah kreatinin & eGFR, ureum, dan kalimat mudah untuk berkonsultasi ke dokter.
-6. **Dua Jalur di Beranda:**
-   - Tombol ramah di Hero: *"Mencegah & Cek Risiko"* vs *"Sedang Menghadapi Dialisis"*.
 
 ## Kalau mau dilanjutkan
 

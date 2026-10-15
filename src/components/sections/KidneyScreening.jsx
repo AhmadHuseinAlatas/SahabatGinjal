@@ -44,7 +44,7 @@ export default function KidneyScreening() {
   }
 
   return (
-    <section id="skrining" aria-labelledby="judul-skrining" className="py-24 sm:py-32">
+    <section id="skrining" aria-labelledby="judul-skrining" className="py-12 sm:py-20 lg:py-28">
       <div className="shell">
         <SectionHeading
           id="judul-skrining"

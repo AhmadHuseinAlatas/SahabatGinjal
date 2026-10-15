@@ -1,11 +1,31 @@
-import { AlertCircle, CheckCircle2, ChevronRight, HelpCircle, Search, UtensilsCrossed } from 'lucide-react'
+import {
+  AlertCircle,
+  CheckCircle2,
+  ChevronRight,
+  HelpCircle,
+  Search,
+  UtensilsCrossed,
+  X,
+} from 'lucide-react'
 import { motion } from 'motion/react'
 import { useState } from 'react'
 import { FOOD_CATEGORIES, FOOD_ITEMS, LEACHING_STEPS } from '../../data/foodGuide'
 import { cn } from '../../lib/cn'
 import Accent from '../ui/Accent'
+import Button from '../ui/Button'
 import Reveal from '../ui/Reveal'
 import SectionHeading from '../ui/SectionHeading'
+
+const INITIAL_FOOD_LIMIT = 6
+
+const QUICK_FOOD_SEARCHES = [
+  { label: '🍌 Pisang', term: 'pisang' },
+  { label: '🥥 Air Kelapa', term: 'kelapa' },
+  { label: '🍎 Apel', term: 'apel' },
+  { label: '🥚 Putih Telur', term: 'telur' },
+  { label: '🥬 Bayam', term: 'bayam' },
+  { label: '🥛 Susu & Keju', term: 'susu' },
+]
 
 const BADGE_STYLES = {
   safe: {
@@ -29,6 +49,7 @@ export default function FoodGuide() {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [query, setQuery] = useState('')
   const [levelFilter, setLevelFilter] = useState('all')
+  const [visibleCount, setVisibleCount] = useState(INITIAL_FOOD_LIMIT)
 
   const filteredFoods = FOOD_ITEMS.filter((item) => {
     const matchCategory = selectedCategory === 'all' || item.category === selectedCategory
@@ -40,8 +61,10 @@ export default function FoodGuide() {
     return matchCategory && matchLevel && matchQuery
   })
 
+  const displayedFoods = query ? filteredFoods : filteredFoods.slice(0, visibleCount)
+
   return (
-    <section id="makanan" aria-labelledby="judul-makanan" className="py-24 sm:py-32">
+    <section id="makanan" aria-labelledby="judul-makanan" className="py-12 sm:py-20 lg:py-28">
       <div className="shell">
         <SectionHeading
           id="judul-makanan"
@@ -59,16 +82,60 @@ export default function FoodGuide() {
         <Reveal className="mt-12">
           <div className="card p-5 sm:p-6">
             <div className="grid gap-4 md:grid-cols-[1fr_auto]">
-              {/* Search input */}
-              <div className="relative">
-                <Search className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-ink-faint" />
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Cari makanan (contoh: pisang, kelapa, tahu, bayam)..."
-                  className="min-h-11 w-full rounded-full bg-surface pr-4 pl-10 text-sm text-ink ring-1 ring-line placeholder:text-ink-faint focus-visible:ring-2 focus-visible:ring-accent"
-                />
+              {/* Search input with clear button and quick chips */}
+              <div>
+                <div className="relative">
+                  <Search className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-ink-faint" />
+                  <input
+                    type="text"
+                    value={query}
+                    onChange={(e) => {
+                      setQuery(e.target.value)
+                      setVisibleCount(INITIAL_FOOD_LIMIT)
+                    }}
+                    placeholder="Cari makanan (contoh: pisang, kelapa, tahu, bayam)..."
+                    className="min-h-11 w-full rounded-full bg-surface pr-10 pl-10 text-sm text-ink ring-1 ring-line placeholder:text-ink-faint focus-visible:ring-2 focus-visible:ring-accent"
+                  />
+                  {query && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setQuery('')
+                        setVisibleCount(INITIAL_FOOD_LIMIT)
+                      }}
+                      aria-label="Hapus pencarian"
+                      className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full p-1 text-ink-faint transition-colors hover:bg-surface-muted hover:text-ink"
+                    >
+                      <X className="size-4" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Chip Pencarian Cepat */}
+                <div className="mt-2.5 flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+                  <span className="font-semibold text-ink-soft">Pencarian Cepat:</span>
+                  {QUICK_FOOD_SEARCHES.map((chip) => {
+                    const isActive = query.toLowerCase() === chip.term
+                    return (
+                      <button
+                        key={chip.term}
+                        type="button"
+                        onClick={() => {
+                          setQuery(isActive ? '' : chip.term)
+                          setVisibleCount(INITIAL_FOOD_LIMIT)
+                        }}
+                        className={cn(
+                          'rounded-full px-2.5 py-0.5 text-xs transition-all',
+                          isActive
+                            ? 'bg-brand text-brand-ink font-bold shadow-xs'
+                            : 'bg-surface-muted text-ink-soft ring-1 ring-line/50 hover:bg-surface hover:text-ink',
+                        )}
+                      >
+                        {chip.label}
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
 
               {/* Filter Level (Aman / Dibatasi) */}
@@ -82,7 +149,10 @@ export default function FoodGuide() {
                   <button
                     key={lvl.id}
                     type="button"
-                    onClick={() => setLevelFilter(lvl.id)}
+                    onClick={() => {
+                      setLevelFilter(lvl.id)
+                      setVisibleCount(INITIAL_FOOD_LIMIT)
+                    }}
                     className={cn(
                       'rounded-full px-3 py-1.5 text-xs font-semibold ring-1 transition-all',
                       levelFilter === lvl.id
@@ -102,7 +172,10 @@ export default function FoodGuide() {
                 <button
                   key={cat.id}
                   type="button"
-                  onClick={() => setSelectedCategory(cat.id)}
+                  onClick={() => {
+                    setSelectedCategory(cat.id)
+                    setVisibleCount(INITIAL_FOOD_LIMIT)
+                  }}
                   className={cn(
                     'rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-colors',
                     selectedCategory === cat.id
@@ -119,7 +192,7 @@ export default function FoodGuide() {
 
         {/* Daftar Kartu Makanan */}
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredFoods.map((item) => {
+          {displayedFoods.map((item) => {
             const style = BADGE_STYLES[item.level]
             const Icon = style.icon
             return (
@@ -150,6 +223,37 @@ export default function FoodGuide() {
             )
           })}
         </div>
+
+        {/* Tombol Tampilkan Lebih Banyak Makanan di Ponsel */}
+        {!query && filteredFoods.length > visibleCount && (
+          <div className="mt-8 flex flex-col items-center justify-center gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setVisibleCount((prev) => prev + 6)}
+              className="text-xs font-bold"
+            >
+              Tampilkan Lebih Banyak ({Math.min(6, filteredFoods.length - visibleCount)} lagi dari {filteredFoods.length - visibleCount} tersisa)
+            </Button>
+            <p className="text-xs text-ink-faint">
+              Menampilkan {displayedFoods.length} dari {filteredFoods.length} bahan makanan
+            </p>
+          </div>
+        )}
+
+        {!query && visibleCount > INITIAL_FOOD_LIMIT && (
+          <div className="mt-3 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                setVisibleCount(INITIAL_FOOD_LIMIT)
+                document.getElementById('makanan')?.scrollIntoView({ behavior: 'smooth' })
+              }}
+              className="text-xs font-semibold text-ink-muted underline underline-offset-4 hover:text-ink"
+            >
+              Ciutkan Kembali ke {INITIAL_FOOD_LIMIT} Makanan
+            </button>
+          </div>
+        )}
 
         {filteredFoods.length === 0 && (
           <div className="mt-8 rounded-2xl border border-dashed border-line p-12 text-center text-ink-faint">

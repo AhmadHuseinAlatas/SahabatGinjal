@@ -1,6 +1,5 @@
 import {
   ChevronRight,
-  HeartHandshake,
   Hospital,
   Phone,
   Wind,
@@ -10,12 +9,9 @@ import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import {
   NAV_COMMUNITY_LINKS,
-  NAV_DIRECT_LINKS,
   NAV_DROPDOWNS,
 } from '../../data/navigation'
 import { cn } from '../../lib/cn'
-import { EASE } from '../../lib/motion'
-import Button from '../ui/Button'
 import Logo from '../ui/Logo'
 
 const FOCUSABLE = '#site-header a, #site-header button, #menu-seluler a, #menu-seluler button'

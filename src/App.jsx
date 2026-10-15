@@ -1,7 +1,10 @@
 import { MotionConfig } from 'motion/react'
+import { useState } from 'react'
 import AuraBackground from './components/layout/AuraBackground'
 import FloatingActions from './components/layout/FloatingActions'
 import Footer from './components/layout/Footer'
+import MobileBottomBar from './components/layout/MobileBottomBar'
+import MobileFocusSwitcher from './components/layout/MobileFocusSwitcher'
 import Navbar from './components/layout/Navbar'
 import ScrollProgress from './components/layout/ScrollProgress'
 import CallToAction from './components/sections/CallToAction'
@@ -27,6 +30,30 @@ import TravelDialysis from './components/sections/TravelDialysis'
 import Understand from './components/sections/Understand'
 
 export default function App() {
+  const [focusMode, setFocusMode] = useState('all') // 'all' | 'prevention' | 'dialysis'
+
+  const showPrevention = focusMode === 'all' || focusMode === 'prevention'
+  const showDialysis = focusMode === 'all' || focusMode === 'dialysis'
+
+  const handleNavigate = (targetId) => {
+    // Jika target modul tersembunyi karena mode fokus yang berlawanan, sesuaikan mode secara otomatis
+    if (['skrining', 'stadium-ginjal', 'pencegahan'].includes(targetId) && focusMode === 'dialysis') {
+      setFocusMode('prevention')
+    } else if (
+      ['pilihan', 'cairan', 'makanan', 'rumah-sakit', 'biaya', 'hari-pertama', 'harian', 'perasaan', 'paham'].includes(targetId) &&
+      focusMode === 'prevention'
+    ) {
+      setFocusMode('dialysis')
+    }
+
+    setTimeout(() => {
+      const el = document.getElementById(targetId)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 60)
+  }
+
   return (
     // reducedMotion="user" menghormati setelan "kurangi gerak" di sistem pengguna.
     <MotionConfig reducedMotion="user">
@@ -41,32 +68,58 @@ export default function App() {
       <AuraBackground />
       <Navbar />
 
-      <main id="konten" tabIndex={-1}>
-        <Hero />
-        <KidneyScreening />
-        <KidneyStages />
-        <KidneyProtection />
-        <MoodCheck />
-        <Understand />
-        <Glossary />
-        <DialysisOptions />
-        <FirstDay />
+      <main id="konten" tabIndex={-1} className="w-full max-w-full overflow-x-clip pb-16 lg:pb-0">
+        <Hero onSelectMode={setFocusMode} />
+
+        {/* Switcher fokus di ponsel untuk mengontrol panjang scroll */}
+        <MobileFocusSwitcher focusMode={focusMode} onSelectMode={setFocusMode} />
+
+        {/* 1. Jalur Pencegahan & Skrining Ginjal */}
+        {showPrevention && (
+          <>
+            <KidneyScreening />
+            <KidneyStages />
+            <KidneyProtection />
+          </>
+        )}
+
+        {/* 2. Jalur Pendamping Dialisis & Keluarga */}
+        {showDialysis && (
+          <>
+            <MoodCheck />
+            <Understand />
+            <Glossary />
+            <DialysisOptions />
+            <FirstDay />
+          </>
+        )}
+
+        {/* 3. Mitos Ginjal (Bermanfaat untuk kedua kelompok) */}
         <Myths />
-        <DailyLife />
-        <FluidTracker />
-        <FoodGuide />
-        <Cost />
-        <HospitalsDirectory />
-        <TravelDialysis />
-        <Stories />
+
+        {/* 4. Rutinitas & Keseharian Dialisis */}
+        {showDialysis && (
+          <>
+            <DailyLife />
+            <FluidTracker />
+            <FoodGuide />
+            <Cost />
+            <HospitalsDirectory />
+            <TravelDialysis />
+            <Stories />
+          </>
+        )}
+
+        {/* 5. Modul Ketenangan, Dukungan, & Penutup (Aksesibel untuk semua) */}
         <CalmRoom />
-        <CrisisHelp />
+        {showDialysis && <CrisisHelp />}
         <Faq />
         <CallToAction />
       </main>
 
       <Footer />
       <FloatingActions />
+      <MobileBottomBar onNavigate={handleNavigate} />
     </MotionConfig>
   )
 }

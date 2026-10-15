@@ -1,5 +1,79 @@
 import { Hospital, House } from 'lucide-react'
 
+export const HD_PRESET_SCHEDULES = [
+  {
+    id: 'sen-kam',
+    label: 'Senin & Kamis',
+    days: ['Sen', 'Kam'],
+    note: 'Pola 2x seminggu paling umum, ada jeda istirahat ideal di antaranya.',
+  },
+  {
+    id: 'sel-jum',
+    label: 'Selasa & Jumat',
+    days: ['Sel', 'Jum'],
+    note: 'Pola 2x seminggu yang memberi kebebasan beraktivitas di akhir pekan.',
+  },
+  {
+    id: 'rab-sab',
+    label: 'Rabu & Sabtu',
+    days: ['Rab', 'Sab'],
+    note: 'Pola 2x seminggu alternatif yang cocok bagi yang aktif di awal pekan.',
+  },
+  {
+    id: 'sen-rab-jum',
+    label: '3x Seminggu (Sen-Rab-Jum)',
+    days: ['Sen', 'Rab', 'Jum'],
+    note: 'Pola 3x seminggu untuk klirens racun dan kestabilan cairan lebih optimal.',
+  },
+  {
+    id: 'sel-kam-sab',
+    label: '3x Seminggu (Sel-Kam-Sab)',
+    days: ['Sel', 'Kam', 'Sab'],
+    note: 'Pola 3x seminggu rotasi genap dengan hari Minggu istirahat penuh.',
+  },
+]
+
+export const HD_DAYS_DATA = [
+  { key: 'Sen', full: 'Senin' },
+  { key: 'Sel', full: 'Selasa' },
+  { key: 'Rab', full: 'Rabu' },
+  { key: 'Kam', full: 'Kamis' },
+  { key: 'Jum', full: 'Jumat' },
+  { key: 'Sab', full: 'Sabtu' },
+  { key: 'Min', full: 'Minggu' },
+]
+
+export const CAPD_SLOTS_DATA = [
+  {
+    time: '06.00',
+    title: 'Pagi Hari (Awali Hari)',
+    subtitle: 'Drain cairan semalam & isi cairan baru (±30–40 menit)',
+    desc: 'Keluarkan cairan yang telah menyerap racun semalaman (dwell night). Timbang dan catat volume cairan buang. Masukkan cairan hangat baru, lalu kamu bebas beraktivitas normal seharian!',
+    highlight: 'Cairan baru di rongga perut tidak mengganggu dan bisa dibawa bekerja, mengurus rumah, atau kuliah.',
+  },
+  {
+    time: '12.00',
+    title: 'Siang Hari (Waktu Istirahat)',
+    subtitle: 'Ganti cairan siang di kantor / tempat kerja',
+    desc: 'Dapat dilakukan di ruang bersih kantor atau di rumah (bukan di toilet umum). Cuci tangan 6 langkah, kenakan masker, dan ganti kantong cairan santai sambil istirahat makan siang.',
+    highlight: 'Banyak pasien profesional tetap produktif berkarier penuh waktu dengan ritme fleksibel ini.',
+  },
+  {
+    time: '17.00',
+    title: 'Sore Hari (Tiba di Rumah)',
+    subtitle: 'Pergantian sore menjaga klirens racun tetap stabil',
+    desc: 'Setelah menyelesaikan aktivitas di luar rumah, luangkan 30 menit untuk mengganti cairan. Tubuh tetap segar dan tidak menumpuk racun urea menjelang malam.',
+    highlight: 'Membantu menjaga nafsu makan dan stamina tetap baik saat makan malam bersama keluarga tercinta.',
+  },
+  {
+    time: '22.00',
+    title: 'Malam Hari (Sebelum Tidur)',
+    subtitle: 'Proses dwell penyaringan semalaman saat lelap',
+    desc: 'Masukkan cairan malam (dapat menggunakan konsentrasi sesuai anjuran dokter). Tutup transfer set dengan rapi dan aman, lalu tidur nyenyak sepanjang malam.',
+    highlight: 'Penyaringan terus berjalan lembut tanpa rasa sakit saat kamu tidur lelap hingga fajar.',
+  },
+]
+
 export const DIALYSIS_OPTIONS = [
   {
     id: 'hd',
@@ -39,7 +113,7 @@ export const DIALYSIS_OPTIONS = [
         { label: 'Sab' },
         { label: 'Min' },
       ],
-      caption: 'Misalnya Senin dan Kamis. Jadwal pastinya diatur unit dialisismu.',
+      caption: 'Klik hari di atas atau pilih pola jadwal untuk melihat simulasi harimu.',
     },
   },
   {
@@ -76,7 +150,7 @@ export const DIALYSIS_OPTIONS = [
         { label: '17.00', active: true },
         { label: '22.00', active: true },
       ],
-      caption: 'Misalnya empat kali ganti cairan. Jadwalnya disesuaikan dengan harimu.',
+      caption: 'Klik jam pergantian cairan untuk melihat rincian aktivitasnya.',
     },
   },
 ]
