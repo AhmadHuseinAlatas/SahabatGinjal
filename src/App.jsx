@@ -7,6 +7,7 @@ import MobileBottomBar from './components/layout/MobileBottomBar'
 import MobileFocusSwitcher from './components/layout/MobileFocusSwitcher'
 import Navbar from './components/layout/Navbar'
 import ScrollProgress from './components/layout/ScrollProgress'
+import AiChatWidget from './components/chat/AiChatWidget'
 import CallToAction from './components/sections/CallToAction'
 import CalmRoom from './components/sections/CalmRoom'
 import Cost from './components/sections/Cost'
@@ -119,6 +120,7 @@ export default function App() {
 
       <Footer />
       <FloatingActions />
+      <AiChatWidget />
       <MobileBottomBar onNavigate={handleNavigate} />
     </MotionConfig>
   )

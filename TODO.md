@@ -67,6 +67,12 @@
    - Rekomendasi harian terstandar dari International Society of Nephrology & World Kidney Day.
 9. **Panduan Cek Lab Sederhana di Puskesmas BPJS:**
    - Edukasi tes urine (proteinuria/albuminuria), tes darah kreatinin & eGFR, ureum, dan kalimat mudah untuk berkonsultasi ke dokter.
+10. **Widget AI Chatbot Interaktif ("Tanya SahabatAI ✨") (`AiChatWidget.jsx`):**
+   - Tombol melayang di pojok kanan bawah (responsif untuk desktop & mobile drawer) dengan lencana animasi denyut.
+   - Basis data pengetahuan medis lokal terverifikasi (bebas kuota & instan): nutrisi (kalium/fosfat/natrium), tips tahan haus, rawat Cimino & CDL, eGFR, HD vs CAPD, serta alur BPJS 100%.
+   - Protokol deteksi tanda bahaya darurat (sesak napas / perdarahan) dengan peringatan merah dan tombol cepat 119.
+   - Opsi integrasi langsung Google Gemini AI (BYOK - Bring Your Own Key) untuk percakapan bebas tanpa batas.
+   - Tombol cepat salin pesan jawaban dan bagikan langsung ke WhatsApp keluarga.
 
 ## Kalau mau dilanjutkan
 

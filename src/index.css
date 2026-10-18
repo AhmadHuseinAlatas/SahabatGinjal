@@ -388,12 +388,34 @@
     inset 0 0 70px rgb(134 205 158 / 0.35);
 }
 
+@utility breath-orb-light {
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgb(255 255 255 / 0.95) 0%,
+    rgb(239 250 242 / 0.9) 46%,
+    rgb(146 207 232 / 0.6) 72%,
+    rgb(85 177 118 / 0.75) 100%
+  );
+  box-shadow:
+    0 0 80px -10px rgb(82 164 205 / 0.4),
+    inset 0 0 50px rgb(134 205 158 / 0.35);
+}
+
 @utility night-sky {
   background:
     radial-gradient(120% 80% at 15% -10%, rgb(53 149 88 / 0.35), transparent 60%),
     radial-gradient(90% 70% at 100% 10%, rgb(58 143 187 / 0.32), transparent 60%),
     radial-gradient(80% 60% at 50% 120%, rgb(218 101 82 / 0.16), transparent 60%),
     var(--color-night-950);
+}
+
+@utility morning-sky {
+  background:
+    radial-gradient(120% 80% at 15% -10%, rgb(181 227 195 / 0.5), transparent 65%),
+    radial-gradient(90% 70% at 100% 10%, rgb(191 226 242 / 0.45), transparent 65%),
+    radial-gradient(80% 60% at 50% 120%, rgb(248 205 196 / 0.3), transparent 65%),
+    #ffffff;
 }
 
 /* Efek gelombang pergantian tema (Pagi / Malam) */
